@@ -1,5 +1,5 @@
 ﻿//EmailLogin  PasswordLogin  EmailLoginBtn   sessionStorage.removeItem("token");
-var urlBase = "https://localhost:5001/";
+var urlBase = "https://localhost:5001";
 //var urlBase = "https://www.zhangqueque.top:5001";
 
 $("#EmailLogin").blur(function () {
