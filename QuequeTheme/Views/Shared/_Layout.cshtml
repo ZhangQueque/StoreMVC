@@ -1,0 +1,128 @@
+﻿ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - 缺缺作品</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,500,600,700' rel='stylesheet' type='text/css'>
+    @*<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700,300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700' rel='stylesheet' type='text/css'>*@
+    <link href='~/02/font-awesome/css/font-awesome.css' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap -->
+
+    <link href="~/02/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- main css -->
+    <link href="~/02/style.css" rel="stylesheet" />
+    <link href="~/02/responsive.css" rel="stylesheet" />
+
+    <!-- Slider -->
+    <link href="~/02/css/owl.carousel.css" rel="stylesheet" />
+    <link href="~/02/css/owl.theme.css" rel="stylesheet" />
+    <link href="~/02/css/owl.transitions.css" rel="stylesheet" />
+
+    <!-- lightbox -->
+    <link href="~/02/css/prettyPhoto.css" rel="stylesheet" />
+
+
+    <!-- 详情页 -->
+    <script type="application/x-javascript">
+        addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+           function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- Custom Theme files -->
+    <link href="~/07/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    @*<link href="~/07/css/style.css" rel="stylesheet" type="text/css" media="all" />*@
+    <link href="~/07/css/fasthover.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- font-awesome icons -->
+    <link href="~/07/css/font-awesome.css" rel="stylesheet">
+    <!-- //font-awesome icons -->
+    <!-- js -->
+    <script src="~/07/js/jquery.min.js"></script>
+
+    <link href="~/111/css/default.css" rel="stylesheet" />
+    <link href="~/111/css/normalize.css" rel="stylesheet" />
+    <link href="~/111/css/set2.css" rel="stylesheet" />
+    <link href="~/live2d/waifu.css" rel="stylesheet" />
+    <!-- for bootstrap working -->
+    <script type="text/javascript" src="~/07/js/bootstrap-3.1.1.min.js"></script>
+    <!-- //for bootstrap working -->
+    <!-- start-smooth-scrolling -->
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+            });
+        });
+    </script>
+    <!-- //end-smooth-scrolling -->
+    <style>
+        #LogOutNac {
+           margin-left:13px
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper" class="homepage-1">
+        <!-- wrapper -->
+
+        @RenderBody()
+
+
+
+        <div id="footer">
+
+            <div class="footer-text">
+                <div class="container">
+                    <p>
+                        Copyright &copy; 2020.缺缺专栏.<a target="_blank" href="https://www.zhangqueque.top">缺缺作品</a>
+                        <a target="_blank" href="http://beian.miit.gov.cn">晋ICP备20002472号-1</a>
+                    </p>
+                </div>
+            </div>
+        </div><!-- Footer -->
+    </div> <!-- wrapper -->
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/layer/layer.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/02/js/library.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/02/js/bootstrap.min.js"></script>
+    <script src="~/02/js/owl.carousel.min.js"></script>
+    <script src="~/02/js/jquery.raty.js"></script>
+    <script src="~/02/js/ui.js"></script>
+    <script src="~/02/js/jquery.prettyPhoto.js"></script>
+    <script src="~/02/js/jquery.selectbox-0.2.js"></script>
+    <script src="~/02/js/theme-script.js"></script>
+
+    <script src="~/canvas-nest/canvas-nest.js" color="49,48,76" opacity='0.9' zIndex="-2" count="99"></script>
+
+    <!-- cart-js -->
+    <script src="~/07/js/minicart.js"></script>
+    <script>
+        $(function () {
+           
+            var token = sessionStorage.getItem("token");
+            if (token == null) {
+                $("#CenterNav").hide();
+                $("#LogOutNac").hide();
+            }
+            else {
+                $("#LoginNav").hide();
+                $("#LogOutNac").show();
+            }
+        })
+        function Logout() {
+            sessionStorage.removeItem("token");
+            location.href = "/Home/Index";
+        }
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

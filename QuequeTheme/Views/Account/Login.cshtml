@@ -1,0 +1,395 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="header">
+    <!-- header -->
+    <div class="top">
+        <!-- top -->
+        <div class="container">
+            <ul class="top-support">
+                <li><i class="fa fa-phone-square"></i><span>(+86) 158 5091 4530</span></li>
+                <li><a href=""><i class="fa fa-envelope-square"></i><span>3393597524@qq.com</span></a></li>
+            </ul>
+
+            <div class="top-control " style="font-size:16px">
+                <a href="">我的订单</a><span>•</span>
+                <a asp-action="Login" id="LoginNav" asp-controller="Account">登录</a>
+                <a asp-action="Login" id="CenterNav" asp-controller="Account">个人中心</a>
+                <a href="javascript:Logout();" id="LogOutNac" >退出 </a><span>•</span>
+            </div>
+            <div class="clearfix"></div> 
+            <div class="top-offers show-mobile">
+                <div class="alert alert-warning alert-dismissible fade in offers" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>
+                    Free Shipping <a href="">on All Orders Over</a> $75!
+                </div>
+            </div>
+        </div>
+    </div> <!-- top -->
+
+
+    <div id="believe-nav">
+        <!-- Nav -->
+        <div class="container">
+            <div class="min-marg">
+                <nav class="navbar navbar-default">
+                    <!-- <div class="container-fluid"> -->
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="index.html"><img width="70" src="~/Img/logo.png" alt=""></a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a asp-action="Index" asp-controller="Home">首页 <span class="sr-only">(current)</span></a></li>
+                            <li><a href="https://www.zhangqueque.top" target="_blank">博客</a></li>
+                            <li><a asp-action="List" asp-controller="Home">产品</a></li>
+                            <li><a href="http://wpa.qq.com/msgrd?v=3&uin=3393597524&site=qq&menu=yes" target="_blank"> 立即联系</a></li>
+                            <li><a href="//shang.qq.com/wpa/qunwpa?idkey=6b78c70140b628e52b4eac050de621a7facab98898ee6d4b8f5c5baa215a8493">关于我们</a></li>
+
+                        </ul>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="menu-search-form">
+                                <a href="#" id="open-srch-form"><img src="~/02/images/srch.png" alt="srch"></a>
+                            </li>
+                            <li><a href="#"><img src="~/02/images/pav.png" alt="pav"><span>2</span></a></li>
+                            <li><a href="#"><img src="~/02/images/bag.png" alt="bag"><span>2</span></a></li>
+                            <li id="open-srch-form-mod">
+                                <div>
+                                    <form class="side-search">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control search-wid" placeholder="Search Here" aria-describedby="basic-addon1">
+                                            <a href="" class="input-group-addon btn-side-serach" id="basic-addon1"><i class="fa fa-search"></i></a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div><!-- /.navbar-collapse -->
+                    <!--</div> -->
+
+                </nav>
+            </div>
+            <div class="srch-form">
+                <form class="side-search" asp-action="List" asp-controller="Home" method="get">
+                    <div class="input-group">
+                        <input type="text" name="Name" class="form-control search-wid" placeholder="Search Here" aria-describedby="basic-addon2">
+                        <input type="text" style="display:none" name="typeId" value="@ViewBag.TypeId" />
+                        <input type="text" style="display:none" name="typeName" value="@ViewBag.TypeName" />
+                        <input type="text" style="display:none" name="childTypeName" value="@ViewBag.ChildTypeName" />
+                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> <!-- Nav -->
+
+    <div id="cat-nav" style="background-color:#31304C ;">
+        <div class="container">
+            <nav class="navbar navbar-default">
+                <!-- <div class="container-fluid"> -->
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#cat-nav-mega">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                @*商品导航栏修改处*@
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="cat-nav-mega">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-action="Index" asp-controller="Home" style="color:aliceblue">热卖</a></li>
+                        @foreach (var item in Model.Product_CategoryDtos)
+                        {
+                            if (item.Id > 29)
+                            {
+                                <li><a asp-action="List" asp-controller="Home" asp-route-typeId="@item.Id" asp-route-typeName="@item.Title" style="color:aliceblue">@item.Title</a></li>
+                            }
+                            else
+                            {
+
+
+                                <li class="dropdown menu-large ">
+                                    <a asp-action="List" asp-controller="Home" asp-route-typeId="@item.PId" asp-route-typeName="@item.Title"
+                                       class="dropdown-toggle" data-toggle="dropdown" role="button" style="color:aliceblue" aria-expanded="false">
+                                        @item.Title <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu  col-md-8" role="menu">
+                                        <li>
+                                            <div class="">
+                                                <div class="mega-sub">
+                                                    <div class="mega-sub-title">@item.Title __所有分类:</div>
+                                                    <ul>
+                                                        @foreach (var child in item.ChildList)
+                                                        {
+                                                            <li style="margin-top:15px"><a asp-action="List" asp-controller="Home" asp-route-typeId="@child.Id" asp-route-typeName="@item.Title" asp-route-childTypeName="@child.Title" class="btn btn-default">@child.Title</a></li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                                <div class="mega-product">
+                                                    <div class="mega-sub-title">最新</div>
+                                                    <div class="row">
+                                                        @foreach (var product in item.ProductList)
+                                                        {
+
+                                                            <div class="col-md-6 prdct-grid">
+
+                                                                <div class="product-fade">
+                                                                    <div>
+                                                                        <div id="product-image10">
+                                                                            <div class="item">
+                                                                                <a asp-action="Detail" asp-controller="Home" asp-route-productId="@product.Id">
+                                                                                    <img src="@product.Pictrue" alt="@product.Title" class="img-responsive">
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="product-name">
+                                                                    @*标题*@
+                                                                    @if (product.Title.Length > 12)
+                                                                    {
+
+                                                                        <span> @product.Title.Substring(0, 12) … </span>
+
+                                                                    }
+                                                                    else
+
+                                                                    {
+
+                                                                        <span>@product.Title </span>
+
+                                                                    }
+
+                                                                </div>
+
+                                                                <div class="product-price">
+                                                                    <span>￥@((product.Price+10))</span> ￥@(product.Price)
+                                                                </div>
+
+                                                            </div>
+
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+
+                        }
+                        @*<li class="cat-img-off"><img src="~/Img/logo.png" style="opacity:0.3" width="150" alt="off"></li>*@
+                    </ul>
+
+                </div><!-- /.navbar-collapse -->
+                <!--</div> -->
+            </nav>
+        </div>
+    </div> <!-- Meun -->
+</div> <!-- header -->
+
+<div class="container-fluid" style="height:510px">
+
+    <div class="col-md-6 col-md-offset-4">
+
+        <!--登录窗口-->
+        <form style="font-size:17px;margin-top:100px " id="LoginDiv">
+            <div class="form-group" style="height:60px">
+                <span class="input input--nao">
+                    <input class="input__field input__field--nao" type="text" id="EmailLogin" autocomplete="off" />
+                    <label class="input__label input__label--nao" for="input-2">
+                        <span class="input__label-content input__label-content--nao">邮箱：</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                    </svg>
+                </span>
+            </div>
+            <div class="form-group" style="height:60px">
+                <span class="input input--nao">
+                    <input class="input__field input__field--nao" type="password" id="PasswordLogin" />
+                    <label class="input__label input__label--nao" for="input-2">
+                        <span class="input__label-content input__label-content--nao">密码：</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                    </svg>
+                </span>
+            </div>
+            <div class="col-md-6 col-md-offset-3 form-inline">
+                <a class="btn btn-link" style="font-size:10px">忘记密码</a>
+                <button type="button" class="btn btn-link" style="font-size:10px" id="ShowPhoneDiv">验证码快捷登录</button>
+            </div>
+            <div class="col-md-6 col-md-offset-2 form-inline">
+
+                &nbsp;
+                <button type="button" class="btn btn-default" style="margin-top:10px" id="EmailLoginBtn">登录</button>
+                <button type="button" class="btn btn-link" style="margin-top:10px" id="ShowRefisterDiv">注册</button>
+            </div>
+
+        </form>
+
+        <!--注册窗口-->
+        <form style="font-size:17px;margin-top:60px" id="RegisterDiv">
+
+            <div class="form-group" style="height:60px">
+                <span class="input input--nao">
+                    <input class="input__field input__field--nao" type="email" id="EmailRegister" autocomplete="off" />
+                    <label class="input__label input__label--nao" for="input-2">
+                        <span class="input__label-content input__label-content--nao">邮箱：</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                    </svg>
+                </span>
+            </div>
+            <div class="form-group" style="height:60px">
+                <span class="input input--nao">
+                    <input class="input__field input__field--nao" type="password" id="PasswordRegister" />
+                    <label class="input__label input__label--nao" for="input-2">
+                        <span class="input__label-content input__label-content--nao">密码：</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                    </svg>
+                </span>
+            </div>
+            <div class="form-group" style="height:60px">
+                <span class="input input--nao">
+                    <input class="input__field input__field--nao" type="password" id="ConfirmPassword" />
+                    <label class="input__label input__label--nao" for="input-2">
+                        <span class="input__label-content input__label-content--nao">请重新输入密码：</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                    </svg>
+                </span>
+            </div>
+            <div class="col-md-6 col-md-offset-4 form-inline">
+
+
+            </div>
+            <div class="col-md-5 col-md-offset-2 form-inline">
+
+                <button type="button" class="btn btn-default" style="margin-top:10px" id="EmailRegisterBtn">注册</button>
+                <button type="button" class="btn btn-link" style="margin-top:10px" id="ShowPhoneDiv2">验证码快捷登录</button>
+            </div>
+            <div class="col-md-5 col-md-offset-2" style="height:60px">
+                &nbsp;&nbsp;
+                <button type="button" class="btn btn-link" style="margin-top:10px" id="ShowLoginDiv">返回登录</button>
+
+            </div>
+        </form>
+
+
+        <!--电话-->
+        <form style="font-size:17px;margin-top:100px" id="PhoneDiv">
+
+            <div class="form-group" style="height:60px">
+                <span class="input input--nao">
+                    <input class="input__field input__field--nao" type="text" id="PhoneLogin" autocomplete="off" />
+                    <label class="input__label input__label--nao" for="input-2">
+                        <span class="input__label-content input__label-content--nao">手机号：</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                    </svg>
+                </span>
+            </div>
+
+            <div class="form-inline" style="height:60px">
+                <span class="input input--nao">
+                    <input class="input__field input__field--nao" type="password" id="CodeLogin" />
+                    <label class="input__label input__label--nao" for="input-2">
+                        <span class="input__label-content input__label-content--nao">验证码：</span>
+                    </label>
+                    <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+                        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0" />
+                    </svg>
+                </span>
+            </div>
+
+            <div class="col-md-6 col-md-offset-4 form-inline">
+                <button type="button" class="btn btn-link" style="margin-top:10px" id="GetCodeBtn">获取验证码</button>
+
+            </div>
+            <div class="col-md-5 col-md-offset-2 form-inline">
+
+                <button type="button" class="btn btn-default" style="margin-top:10px" id="PhoneLoginBtn">手机号登录</button>
+
+            </div>
+            <div class="col-md-5 col-md-offset-2" style="height:60px">
+                &nbsp;
+                <button type="button" class="btn btn-link" style="margin-top:10px" id="ShowLoginDiv2">返回登录 </button>
+
+            </div>
+        </form>
+    </div>
+
+
+
+
+</div>
+
+
+@section Scripts{
+    <script src="~/111/js/classie.js"></script>
+
+    <script>
+        (function () {
+            // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+            if (!String.prototype.trim) {
+                (function () {
+                    // Make sure we trim BOM and NBSP
+                    var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                    String.prototype.trim = function () {
+                        return this.replace(rtrim, '');
+                    };
+                })();
+            }
+
+            [].slice.call(document.querySelectorAll('input.input__field')).forEach(function (inputEl) {
+                // in case the input is already filled..
+                if (inputEl.value.trim() !== '') {
+                    classie.add(inputEl.parentNode, 'input--filled');
+                }
+
+                // events:
+                inputEl.addEventListener('focus', onInputFocus);
+                inputEl.addEventListener('blur', onInputBlur);
+            });
+
+            function onInputFocus(ev) {
+                classie.add(ev.target.parentNode, 'input--filled');
+            }
+
+            function onInputBlur(ev) {
+                if (ev.target.value.trim() === '') {
+                    classie.remove(ev.target.parentNode, 'input--filled');
+                }
+            }
+        })();
+
+
+
+    </script>
+    <script src="~/js/login_btn.js"></script>
+    <script src="~/js/login.js"></script>
+}
