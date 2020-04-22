@@ -1,7 +1,9 @@
-﻿@{
-    ViewData["Title"] = "商品列表 缺缺作品";
+﻿
+@{
+    ViewData["Title"] = "购物车 缺缺作品";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model ListViewModel
+
 <div id="header">
     <!-- header -->
     <div class="top">
@@ -11,7 +13,7 @@
                 <li><i class="fa fa-phone-square"></i><span>(+86) 158 5091 4530</span></li>
                 <li><a href=""><i class="fa fa-envelope-square"></i><span>3393597524@qq.com</span></a></li>
             </ul>
-         
+
             <div class="top-control " style="font-size:16px">
                 <a href="">我的订单</a><span>•</span>
                 <a asp-action="Login" id="LoginNav" asp-controller="Account">登录</a>
@@ -49,12 +51,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a asp-action="Index">首页 <span class="sr-only">(current)</span></a></li>
+                            <li class="active"><a asp-action="Index" asp-controller="Home">首页 <span class="sr-only">(current)</span></a></li>
                             <li><a href="https://www.zhangqueque.top" target="_blank">博客</a></li>
-                            <li><a asp-action="List">产品</a></li>
+                            <li><a asp-action="List" asp-controller="Home">产品</a></li>
                             <li><a href="http://wpa.qq.com/msgrd?v=3&uin=3393597524&site=qq&menu=yes" target="_blank"> 立即联系</a></li>
                             <li><a href="//shang.qq.com/wpa/qunwpa?idkey=6b78c70140b628e52b4eac050de621a7facab98898ee6d4b8f5c5baa215a8493">关于我们</a></li>
-
 
                         </ul>
 
@@ -82,7 +83,7 @@
                 </nav>
             </div>
             <div class="srch-form">
-                <form class="side-search" asp-action="List" method="get">
+                <form class="side-search" asp-action="List" asp-controller="Home" method="get">
                     <div class="input-group">
                         <input type="text" name="Name" class="form-control search-wid" placeholder="Search Here" aria-describedby="basic-addon2">
                         <input type="text" style="display:none" name="typeId" value="@ViewBag.TypeId" />
@@ -95,7 +96,7 @@
         </div>
     </div> <!-- Nav -->
 
-    <div id="cat-nav" style="background-color:#31304C">
+    <div id="cat-nav" style="background-color:#31304C ;">
         <div class="container">
             <nav class="navbar navbar-default">
                 <!-- <div class="container-fluid"> -->
@@ -112,19 +113,19 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="cat-nav-mega">
                     <ul class="nav navbar-nav">
-                        <li><a asp-action="Index" style="color:aliceblue">热卖</a></li>
+                        <li><a asp-action="Index" asp-controller="Home" style="color:aliceblue">热卖</a></li>
                         @foreach (var item in Model.Product_CategoryDtos)
                         {
                             if (item.Id > 29)
                             {
-                                <li><a asp-action="List" asp-route-typeId="@item.Id" asp-route-typeName="@item.Title" style="color:aliceblue">@item.Title</a></li>
+                                <li><a asp-action="List" asp-controller="Home" asp-route-typeId="@item.Id" asp-route-typeName="@item.Title" style="color:aliceblue">@item.Title</a></li>
                             }
                             else
                             {
 
 
                                 <li class="dropdown menu-large ">
-                                    <a asp-action="List" asp-route-typeId="@item.PId" asp-route-typeName="@item.Title"
+                                    <a asp-action="List" asp-controller="Home" asp-route-typeId="@item.PId" asp-route-typeName="@item.Title"
                                        class="dropdown-toggle" data-toggle="dropdown" role="button" style="color:aliceblue" aria-expanded="false">
                                         @item.Title <i class="fa fa-angle-down"></i>
                                     </a>
@@ -136,7 +137,7 @@
                                                     <ul>
                                                         @foreach (var child in item.ChildList)
                                                         {
-                                                            <li style="margin-top:15px"><a asp-action="List" asp-route-typeId="@child.Id" asp-route-typeName="@item.Title" asp-route-childTypeName="@child.Title" class="btn btn-default">@child.Title</a></li>
+                                                            <li style="margin-top:15px"><a asp-action="List" asp-controller="Home" asp-route-typeId="@child.Id" asp-route-typeName="@item.Title" asp-route-childTypeName="@child.Title" class="btn btn-default">@child.Title</a></li>
                                                         }
                                                     </ul>
                                                 </div>
@@ -152,7 +153,7 @@
                                                                     <div>
                                                                         <div id="product-image10">
                                                                             <div class="item">
-                                                                                <a asp-action="Detail" asp-route-productId="@product.Id">
+                                                                                <a asp-action="Detail" asp-controller="Home" asp-route-productId="@product.Id">
                                                                                     <img src="@product.Pictrue" alt="@product.Title" class="img-responsive">
                                                                                 </a>
                                                                             </div>
@@ -162,23 +163,24 @@
                                                                 </div>
                                                                 <div class="product-name">
                                                                     @*标题*@
-                                                                    @if (item.Title.Length > 12)
+                                                                    @if (product.Title.Length > 12)
                                                                     {
 
-                                                                        <span> @item.Title.Substring(0, 12) … </span>
+                                                                        <span> @product.Title.Substring(0, 12) … </span>
 
                                                                     }
                                                                     else
+
                                                                     {
 
-                                                                        <span>@item.Title </span>
+                                                                        <span>@product.Title </span>
 
                                                                     }
 
                                                                 </div>
 
                                                                 <div class="product-price">
-                                                                    <span>￥@(product.Price+10)</span> ￥@product.Price
+                                                                    <span>￥@((product.Price+10))</span> ￥@(product.Price)
                                                                 </div>
 
                                                             </div>
@@ -194,7 +196,7 @@
                             }
 
                         }
-                        @*<li class="cat-img-off"><img src="~/02/images/offers.png" alt="off"></li>*@
+                        @*<li class="cat-img-off"><img src="~/Img/logo.png" style="opacity:0.3" width="150" alt="off"></li>*@
                     </ul>
 
                 </div><!-- /.navbar-collapse -->
@@ -204,115 +206,74 @@
     </div> <!-- Meun -->
 </div> <!-- header -->
 
+<div class="alert alert-danger alert-dismissible text-center" style="margin-top:30px" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>警告!</strong> 以下都是虚假商品信息，一切行为，本网站概不负责！
+</div>
+
 <div class="container">
-
-    <div class="alert alert-info alert-dismissible" style="margin-top:20px;" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong> 当前所在位置：@ViewBag.TypeName</strong> <strong>&nbsp;&nbsp;&nbsp;&nbsp; @ViewBag.ChildTypeName</strong>
+    <div class="page-header">
+        <h1>缺缺商城 <small>购物车：</small></h1>
     </div>
-
-
-    @*分类 查找*@
-    @*<div class="row" style="margin-top:50px">
-            <div class="col-md-12">
-                @if (ViewBag.TypeId != 0)
+    <div class="table-responsive ">
+        <table class="table table-hover ">
+            <thead>
+                <tr class="text-center">
+                    <th class="text-center">商品</th>
+                    <th class="text-center">单价</th>
+                    <th class="text-center">数量</th>
+                    <th class="text-center">小计</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 3; i++)
                 {
-                    <button type="button" class="btn btn-secondary col-md-1">分类：</button>
+                    <tr class="text-center ">
+                        <td class="col-md-6">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <img src="//img10.360buyimg.com/n7/jfs/t1/92559/27/13524/163404/5e5a75cdE450f707f/a55c542b4061a529.jpg" alt="Alternate Text" class="img-responsive " />
 
-                    <div class="col-md-10">
-
-                        @foreach (var item in Model.Product_CategoryDtos)
-                        {
-                            <a class="btn btn-secondary   col-md-2" asp-action="List" asp-route-typeId="@item.Id" asp-route-typeName="@ViewBag.TypeName" asp-route-childTypeName="@item.Title">@item.Title</a>
-                        }
-
-                    </div>
-                }
-            </div>
-
-        </div>*@
-    @*筛选*@
-    <div class="row">
-        <div class="col-md-12">
-            <button type="button" class="btn btn-secondary col-md-1">筛选：</button>
-
-            <div class="col-md-11">
-                <a class="btn btn-secondary  col-md-2" style="max-width:15.66666667%" asp-action="List" asp-route-typeId="@ViewBag.TypeId" asp-route-typeName="@ViewBag.TypeName" asp-route-Name="@ViewBag.Name" asp-route-childTypeName="@ViewBag.ChildTypeName" asp-route-IsPriceSort="@ViewBag.IsPriceSort">价格⬆⬇</a>
-                <a class="btn btn-secondary  col-md-2" style="max-width:14.66666667%" asp-action="List" asp-route-typeId="@ViewBag.TypeId" asp-route-typeName="@ViewBag.TypeName" asp-route-Name="@ViewBag.Name" asp-route-childTypeName="@ViewBag.ChildTypeName" asp-route-IsPurchaseSort="@ViewBag.IsPurchaseSort">销量⬆⬇</a>
-                <a class="btn btn-secondary  col-md-2" style="max-width:15.66666667%" asp-action="List" asp-route-typeId="@ViewBag.TypeId" asp-route-typeName="@ViewBag.TypeName" asp-route-Name="@ViewBag.Name" asp-route-childTypeName="@ViewBag.ChildTypeName" asp-route-IsTimeSort="@ViewBag.IsTimeSort">上市时间⬆⬇</a>
-                <form method="get">
-                    <div class="form-inline">
-                        <input type="number" name="BottomPrice" placeholder="￥" style="width:70px;margin-top:7px" class=" col-md-1" />
-                        <span class="col-md-1" style="width:10px;margin-top:3px">-</span>
-                        <input type="number" name="TopPrice" placeholder="￥" style="width:70px;margin-top:7px" class="col-md-1" />
-                        <input type="text" style="display:none" name="typeId" value="@ViewBag.TypeId" />
-                        <input type="text" style="display:none" name="typeName" value="@ViewBag.TypeName" />
-                        <input type="text" style="display:none" name="seachName" value="@ViewBag.Name" />
-                        <input type="text" style="display:none" name="childTypeName" value="@ViewBag.ChildTypeName" />
-                        <input type="submit" value="筛选" style="margin-top:1px" class="btn btn-link btn-sm col-md-1" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    @*警告框*@
-    <div class="alert alert-danger alert-dismissible text-center" style="margin-top:30px" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>警告!</strong> 以下都是虚假商品信息，一切行为，本网站概不负责！
-    </div>
-    @*商品列表*@
-    <div class="row" style="margin-top:50px">
-
-        <div class="col-md-12">
-
-            <div style="display:flex ;flex-wrap:wrap">
-                @foreach (var item in Model.PageList.Data)
-                {
-                    <div class="col-md-3 prdct-grid">
-                        <div class="product-fade">
-                            <div class="product-fade-wrap">
-                                <div id="product-image">
-                                    @*图片*@
-                                    <div class="item"><img src="@item.Pictrue" alt="" class="img-responsive"></div>
                                 </div>
-                                <div class="product-fade-ct">
-                                    <div class="product-fade-control">
-                                        <div class="to-left">
-                                            <a href=""><i style="color:gold" class="fa fa-heart"></i></a>
-                                        </div>
-                                    </div>
+                                <div class="col-md-9 text-left">
+                                    <p><a href="#"><strong style="font-size:15px"> 思惠拓（siut） 落地立式广告机触控一体机触摸广告屏液晶</strong></a></p>
+                                    <p>
+                                        <strong style="color:#808080;font-size:14px">
+                                            This is a short description of the goods, if the goods are not described, then you will see this sentence.
+                                        </strong>
+                                    </p>
+                                    <p>
+                                        尺码：
+                                        <strong style="font-size:15px;color:red">XL ✖</strong>
+                                        <strong style="font-size:17px;color:red">3</strong>
+                                    </p>
+
                                 </div>
                             </div>
-                        </div>
-                        <div class="product-name">
-                            @*标题*@
-                            <a asp-action="Detail" asp-route-productId="@item.Id">
-                                @if (item.Title.Length > 12)
-                                {
+                        </td>
+                        <td><span style="font-size:30px;">￥127</span></td>
+                        <td><span style="font-size:30px;">3</span></td>
+                        <td><span style="font-size:30px;color:crimson">￥547</span></td>
+                        <td>
+                            <p>
+                                <button type="button" class="btn btn-link" aria-label="Close"><span aria-hidden="true">从购物车移除</span></button>
+                            </p>
 
+                            <p>
+                                <button type="button" class="btn btn-link" aria-label="Close"><span aria-hidden="true">前往结算</span></button>
+                            </p>
 
-                                    <span>  @item.Title.Substring(0, 12) … </span>
-
-                                }
-                                else
-                                {
-
-
-                                    <span>@item.Title </span>
-
-                                }
-                            </a>
-                        </div>
-
-                        <div class="product-price" style="text-align:center">
-                            @*价格*@
-                            <span>￥@(item.Price+10)</span> ￥@item.Price
-                        </div>
-                    </div>
+                        </td>
+                    </tr>
                 }
-            </div>
-        </div>
+            </tbody>
+        </table>
     </div>
 </div>
 
+@section Scripts{
+
+    <script src="~/js/checkLogin.js"></script>
+
+}
