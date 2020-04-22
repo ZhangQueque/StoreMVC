@@ -276,7 +276,20 @@
                         </div>
                         <div class="col-md-7 single-right" style="font-size:16px">
                             <div class="col-md-12">
-                                <p style="margin-top:10px"> <label class="form-check-label" for="inlineCheckbox1">商品名称</label> ：<strong style="color:#1E9FFF;font-size:20px">@Model.Product.Title</strong></p>
+                                @if (@Model.Product.UserName != "")
+                                {
+                                    <p style="margin-top:20px;font-size:12px"> <label class="form-check-label" for="inlineCheckbox1">该商品由<strong style="color:#00ffff;font-size:14px;"> @Model.Product.UserName </strong> 提供！</label></p>
+
+                                }
+                                else
+                                {
+                                    <p style="margin-top:20px;font-size:12px;color:#808080"> <label class="form-check-label" for="inlineCheckbox1">该商品由<strong style="color:#000000;font-size:14px;"> 缺缺商城 </strong> 提供！</label></p>
+
+                                }
+
+                                <p style="margin-top:10px"> <label class="form-check-label" for="inlineCheckbox1">商品名称：</label> ：<strong style="color:#1E9FFF;font-size:20px">@Model.Product.Title</strong></p>
+
+
                                 <p style="margin-top:20px">
                                     <label class="form-check-label" for="inlineCheckbox1">商品描述：</label> @if (@Model.Product.ShortDescribe == "")
                                     {
