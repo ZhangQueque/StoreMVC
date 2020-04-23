@@ -48,7 +48,8 @@ $("#EmailLoginBtn").click(function () {
 
         }
     }).fail(function () {
-        layer.msg('服务器错误，请联系管理员！', { icon: 5 });
+        layer.close(index);  
+        layer.msg('账号密码错误，请联系管理员！', { icon: 5 });
     });
 });
 
@@ -116,6 +117,7 @@ $("#EmailRegisterBtn").click(function () {
             }
         }
     }).fail(function () {
+        layer.close(index);  
         layer.msg('服务器错误，请联系管理员！', { icon: 5 });
     });
 });
@@ -163,6 +165,7 @@ $("#GetCodeBtn").click(function () {
             layer.msg(res, { icon: 6 });   
         }
     }).fail(function () {
+        layer.close(index);  
         layer.msg('服务器错误，请联系管理员！', { icon: 5 });
     });
 
@@ -199,6 +202,7 @@ $("#PhoneLoginBtn").click(function () {
             }
         }
     }).fail(function () {
+        layer.close(index);  
         layer.msg('服务器错误，请联系管理员！', { icon: 5 });
     });
 });
