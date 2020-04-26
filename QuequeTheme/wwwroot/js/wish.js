@@ -63,8 +63,8 @@ function WishDelete(wishId) {
 
     
         $.ajax({
-            url: urlBase + '/api/wishs/' + wishId,
-            type: 'delete',
+            url: urlBase + '/api/wishs/delete/' + wishId,
+            type: 'get',
             headers: { "Authorization": "Bearer " + token },
             contentType: 'application/json',
             success: function (res) {       

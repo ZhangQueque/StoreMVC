@@ -110,8 +110,13 @@
         $(function () {
 
             var token = $.cookie("token");
-
-            if (token == "null") {
+            if (token == undefined) {
+                $("#CenterNav").hide();
+                $("#LogOutNac").hide();
+                $("#LoginNav").show();
+               
+            }
+            else if (token == "null") {
                 $("#CenterNav").hide();
                 $("#LogOutNac").hide();
             }
