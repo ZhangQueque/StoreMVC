@@ -113,8 +113,8 @@ function ToBuy(productId, status, count,cartId) {
         success: function (res) {
 
             $.ajax({
-                url: urlBase + '/api/carts/' + cartId,
-                type: 'delete',
+                url: urlBase + '/api/carts/delete/' + cartId,
+                type: 'get',
                 headers: { "Authorization": "Bearer " + token },
                 contentType: 'application/json',
                 success: function (res) {
