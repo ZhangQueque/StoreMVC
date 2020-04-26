@@ -24,10 +24,12 @@ namespace QuequeTheme
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddHttpClient("api1",options=> {
-         
-                options.BaseAddress =new Uri("https://localhost:5001/");
-               // options.BaseAddress = new Uri("https://www.zhangqueque.top:5001/");
+            services.AddHttpClient("api1", options =>
+            {
+
+                options.BaseAddress = new Uri(Configuration["BaseAddress"]);
+                //"https://localhost:5001/"
+                // options.BaseAddress = new Uri("https://www.zhangqueque.top:5001/");
             });
         }
 

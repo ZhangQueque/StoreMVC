@@ -13,5 +13,7 @@ namespace QuequeTheme.Models
         public List<Product> ShopTopProducts { get; set; } = new List<Product>();
 
         public List<Product> PageViewTopProducts { get; set; } = new List<Product>();
+
+
     }
 }

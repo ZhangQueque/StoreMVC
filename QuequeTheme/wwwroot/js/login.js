@@ -1,6 +1,5 @@
 ﻿//EmailLogin  PasswordLogin  EmailLoginBtn   sessionStorage.removeItem("token");
-var urlBase = "https://localhost:5001";
-//var urlBase = "https://www.zhangqueque.top:5001";
+ 
 
 $("#EmailLogin").blur(function () {
 
@@ -42,13 +41,13 @@ $("#EmailLoginBtn").click(function () {
         data: JSON.stringify({ Email: email, Password: password }),
         contentType: 'application/json',
         success: function (res) {
-            layer.close(index);   
-            sessionStorage.setItem("token", res.token);
+            layer.close(index);
+            $.cookie("token", res.token, { path: '/' });
             layer.msg('登录成功！', { icon: 6 }, function () { location.href = "/Home/Index" });
 
         }
     }).fail(function () {
-        layer.close(index);  
+        layer.close(index);
         layer.msg('账号密码错误，请联系管理员！', { icon: 5 });
     });
 });
@@ -106,18 +105,19 @@ $("#EmailRegisterBtn").click(function () {
         data: JSON.stringify({ Email: email, Password: password }),
         contentType: 'application/json',
         success: function (res) {
-            layer.close(index);  
+            layer.close(index);
             if (res.code == 1) {
                 layer.msg('账号已经存在！请重新注册！', { icon: 5 });
                 return;
             }
             if (res.code == 0) {
-                sessionStorage.setItem("token", res.token);
+                $.cookie("token", res.token, { path:'/' });
+ 
                 layer.msg('注册成功！', { icon: 6 }, function () { location.href = "/Home/Index" });
             }
         }
     }).fail(function () {
-        layer.close(index);  
+        layer.close(index);
         layer.msg('服务器错误，请联系管理员！', { icon: 5 });
     });
 });
@@ -160,12 +160,12 @@ $("#GetCodeBtn").click(function () {
         url: urlBase + '/api/accounts?phone=' + value,
         type: 'get',
         contentType: 'application/json',
-        success: function (res) {     
+        success: function (res) {
             layer.close(index);
-            layer.msg(res, { icon: 6 });   
+            layer.msg(res, { icon: 6 });
         }
     }).fail(function () {
-        layer.close(index);  
+        layer.close(index);
         layer.msg('服务器错误，请联系管理员！', { icon: 5 });
     });
 
@@ -197,12 +197,12 @@ $("#PhoneLoginBtn").click(function () {
                 return;
             }
             if (res.code == 0) {
-                sessionStorage.setItem("token", res.token);
+                $.cookie("token", res.token, { path: '/' });
                 layer.msg('验证成功！', { icon: 6 }, function () { location.href = "/Home/Index" });
             }
         }
     }).fail(function () {
-        layer.close(index);  
+        layer.close(index);
         layer.msg('服务器错误，请联系管理员！', { icon: 5 });
     });
 });

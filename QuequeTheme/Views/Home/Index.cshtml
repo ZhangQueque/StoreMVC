@@ -11,23 +11,17 @@
             <!-- top -->
             <div class="container">
                 <ul class="top-support">
-                    <li><i class="fa fa-phone-square"></i><span>(+86) 158 5091 4530</span></li>
-                    <li><a href=""><i class="fa fa-envelope-square"></i><span>3393597524@qq.com</span></a></li>
+                    <li><i style=" color:white" class="fa fa-phone-square"></i><span>(+86) 158 5091 4530</span></li>
+                    <li><a href=""><i style=" color:white" class="fa fa-envelope-square"></i><span>3393597524@qq.com</span></a></li>
                 </ul>
              
                 <div class="top-control " style="font-size:16px">
-                    <a href="">我的订单</a><span>•</span>
+                    @*<a href="">我的订单</a><span>•</span>*@
                     <a asp-action="Login" id="LoginNav" asp-controller="Account">登录</a>
-                    <a asp-action="Login" id="CenterNav" asp-controller="Account">个人中心</a>
+                    <a asp-action="CartList" id="CenterNav" asp-controller="Shop">欢迎您!<span id="NickNameNav" style=" color:white"></span> </a>
                     <a href="javascript:Logout();" id="LogOutNac">注销 </a><span>•</span>
                 </div>
-                <div class="clearfix"></div>
-                <div class="top-offers show-mobile">
-                    <div class="alert alert-warning alert-dismissible fade in offers" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>
-                        Free Shipping <a href="">on All Orders Over</a> $75!
-                    </div>
-                </div>
+                
             </div>
         </div> <!-- top -->
 
@@ -327,7 +321,7 @@
                                                 <div class="product-fade-ct">
                                                     <div class="product-fade-control">
                                                         <div class="to-left">
-                                                            <a href=""><i style="color:gold" class="fa fa-heart"></i></a>
+                                                            <a href="javascript:Heart(@item.Id);"><i style="color:gold" class="fa fa-heart"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -378,7 +372,7 @@
                                                 <div class="product-fade-ct">
                                                     <div class="product-fade-control">
                                                         <div class="to-left">
-                                                            <a href=""><i style="color:gold" class="fa fa-heart"></i></a>
+                                                            <a href="javascript:Heart(@item.Id);"><i style="color:gold" class="fa fa-heart"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -428,7 +422,7 @@
                                                 <div class="product-fade-ct">
                                                     <div class="product-fade-control">
                                                         <div class="to-left">
-                                                            <a href=""><i style="color:gold" class="fa fa-heart"></i></a>
+                                                            <a href="javascript:Heart(@item.Id);"><i style="color:gold" class="fa fa-heart"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -558,7 +552,7 @@
 </div> <!-- Content -->
 
 @section Scripts{
-
+    <script src="~/js/wish.js"></script>
 
 }
 
