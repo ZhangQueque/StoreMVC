@@ -13,11 +13,11 @@ $(function () {
                 headers: { "Authorization": "Bearer " + token },
                 contentType: 'application/json',
                 success: function (res) {
-                    console.log(res);
-                    $("#NickNameNav").text(res.nickName);
+                     $("#NickNameNav").text(res.nickName);
+                    $("#WishCount").text(res.wishCount);
+                    $("#CartCount").text(res.cartCount);
 
-                    res.wishCount;
-                    res.cartCount;
+                    
                     layer.close(index);
                 }
             }).fail(function () {
