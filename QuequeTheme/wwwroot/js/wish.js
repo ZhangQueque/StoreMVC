@@ -34,7 +34,7 @@ function Heart(productId) {
                     }
                     else {
                         layer.close(index);
-                        layer.msg("收藏成功", { icon: 6 });
+                        layer.msg("收藏成功", { icon: 6 }, function () { onCommonDataLoad(); });
                     }
                     layer.close(index);
                 }
@@ -70,9 +70,8 @@ function WishDelete(wishId) {
             success: function (res) {       
                 layer.close(index);
 
-                layer.msg("删除成功！", { icon: 6 });
-                location.href = "/Shop/WishList";
-            }
+                layer.msg("删除成功！", { icon: 6 }, function () { onCommonDataLoad(); });
+             }
         }).fail(function () {
             layer.close(index);
 

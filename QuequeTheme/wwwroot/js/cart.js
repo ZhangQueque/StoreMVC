@@ -26,7 +26,7 @@ function InsertCart(productId) {
                 contentType: 'application/json',
                 success: function (res) {
                     layer.close(index);
-                        layer.msg("加入购物车成功", { icon: 6 });                   
+                    layer.msg("加入购物车成功", { icon: 6 }, function () { onCommonDataLoad(); });                   
                 }
             }).fail(function () {
  
@@ -65,7 +65,7 @@ function CartDelete(cartId) {
         }).fail(function () {
             layer.close(index);
 
-            layer.msg("服务器错误，请联系管理员！", { icon: 5 });
+            layer.msg("服务器错误，请联系管理员！", { icon: 5 }, function () { onCommonDataLoad(); });
         });
 
         layer.close(index);
@@ -97,7 +97,7 @@ function GoBuy() {
 
 } 
 
-//购买
+//购买  --订单新增
 function ToBuy(productId, status, count,cartId) {
     var price = parseFloat( $("#TotalPrice").text());
     var token = $.cookie("token");
