@@ -71,6 +71,7 @@ function WishDelete(wishId) {
                 layer.close(index);
 
                 layer.msg("删除成功！", { icon: 6 }, function () { onCommonDataLoad(); });
+                location.href = "/Shop/WishList";
              }
         }).fail(function () {
             layer.close(index);

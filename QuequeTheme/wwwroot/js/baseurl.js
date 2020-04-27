@@ -43,6 +43,7 @@ function onCommonDataLoad() {
         }
     }).fail(function () {
         layer.close(index);
+        location.href = "/Account/Login";
 
     });
 }
