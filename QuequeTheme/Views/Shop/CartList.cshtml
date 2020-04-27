@@ -17,7 +17,7 @@
                 <div class="top-control " style="font-size:16px">
                     @*<a href="">我的订单</a><span>•</span>*@
                     <a asp-action="Login" id="LoginNav" asp-controller="Account">登录</a>
-                    <a asp-action="CartList" id="CenterNav" asp-controller="Shop">欢迎您!<span id="NickNameNav" style=" color:white"></span> </a>
+                    <a asp-action="Index" id="CenterNav" asp-controller="Admin">欢迎您!<span id="NickNameNav" style=" color:white"></span> </a>
                     <a href="javascript:Logout();" id="LogOutNac">注销 </a><span>•</span>
                 </div>
 
@@ -273,7 +273,7 @@
                             <div id="QQ" style="display:none;background-color:white">
                                 <div>
 
-                                    <img src="~/Img/qq.png"  class="img-responsive" alt="联系我" />
+                                    <img src="~/Img/qq.png" class="img-responsive" alt="联系我" />
                                     <p style="display:flex;flex-wrap:wrap;justify-content:space-between">
                                         <button class="btn btn-danger " onclick="ToBuy(@item.ProductId,0,@item.Count,@item.Id)">取消</button>
                                         <button class="btn btn-success" onclick="ToBuy(@item.ProductId,1,@item.Count,@item.Id)">购买</button>
@@ -283,12 +283,51 @@
                             </div>
                         </td>
                     </tr>
-                 
-                     
+
+
                 }
             </tbody>
         </table>
     </div>
+    <nav aria-label="Page navigation example" style="float:right">
+        <ul class="pagination justify-content-end">
+            @if (ViewBag.Index == 1)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link"  dis tabindex="-1" aria-disabled="true">上一页</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item  ">
+                    <a class="page-link" asp-action="CartList" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                </li>
+            }
+            @for (int i = 1; i <= Model.PageList.TotalPages; i++)
+            {
+                if (i == ViewBag.Index)
+                {
+                    <li class="page-item active"><a class="page-link" asp-action="CartList" asp-route-index="@i">@i</a></li>
+                    continue;
+                }
+                <li class="page-item"><a class="page-link" asp-action="CartList" asp-route-index="@i">@i</a></li>
+
+            }
+            @if (ViewBag.Index == Model.PageList.TotalPages)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link"  tabindex="-1" aria-disabled="true">下一页</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item  ">
+                    <a class="page-link" asp-action="CartList" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                </li>
+            }
+
+        </ul>
+    </nav>
 </div>
 
 

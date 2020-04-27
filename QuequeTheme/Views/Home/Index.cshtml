@@ -18,7 +18,7 @@
                 <div class="top-control " style="font-size:16px">
                     @*<a href="">我的订单</a><span>•</span>*@
                     <a asp-action="Login" id="LoginNav" asp-controller="Account">登录</a>
-                    <a asp-action="CartList" id="CenterNav" asp-controller="Shop">欢迎您!<span id="NickNameNav" style=" color:white"></span> </a>
+                    <a asp-action="Index" id="CenterNav" asp-controller="Admin">欢迎您!<span id="NickNameNav" style=" color:white"></span> </a>
                     <a href="javascript:Logout();" id="LogOutNac">注销 </a><span>•</span>
                 </div>
                 
@@ -47,7 +47,7 @@
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
                                 <li class="active"><a asp-action="Index">首页 <span class="sr-only">(current)</span></a></li>
-                                <li><a href="https://www.zhangqueque.top" target="_blank">博客</a></li>
+                                <li><a href="https://juejin.im/user/5d6a5a57e51d453bb13b666b/posts" target="_blank">博客</a></li>
                                 <li><a asp-action="List">产品</a></li>
                                 <li><a href="http://wpa.qq.com/msgrd?v=3&uin=3393597524&site=qq&menu=yes" target="_blank"> 立即联系</a></li>
                                 <li><a href="//shang.qq.com/wpa/qunwpa?idkey=6b78c70140b628e52b4eac050de621a7facab98898ee6d4b8f5c5baa215a8493">关于我们</a></li>

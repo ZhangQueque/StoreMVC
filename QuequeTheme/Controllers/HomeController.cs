@@ -93,8 +93,9 @@ namespace QuequeTheme.Controllers
             ViewBag.TypeId = typeId; 
             ViewBag.TypeName = typeName;
             ViewBag.ChildTypeName = "";
-          
-            
+            ViewBag.Index = pageParameters.PageIndex;
+
+
             if (!string.IsNullOrEmpty(childTypeName))
             {
                 ViewBag.ChildTypeName =  childTypeName;
@@ -107,16 +108,20 @@ namespace QuequeTheme.Controllers
 
             //true  false  逻辑处理
             ViewBag.IsPriceSort = false;
+            ViewBag.IsPriceSortNull = pageParameters.IsPriceSort;
             if (pageParameters.IsPriceSort!=null)
             {
                 ViewBag.IsPriceSort = !pageParameters.IsPriceSort;
-            }
+             }
             ViewBag.IsPurchaseSort = false;
+            ViewBag.IsPurchaseSortNull = pageParameters.IsPurchaseSort;
+
             if (pageParameters.IsPurchaseSort != null)
             {
                 ViewBag.IsPurchaseSort = !pageParameters.IsPurchaseSort;
             }
             ViewBag.IsTimeSort = false;
+            ViewBag.IsTimeSortNull = pageParameters.IsTimeSort;
             if (pageParameters.IsTimeSort != null)
             {
                 ViewBag.IsTimeSort = !pageParameters.IsTimeSort;

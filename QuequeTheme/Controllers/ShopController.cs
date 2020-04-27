@@ -33,7 +33,7 @@ namespace QuequeTheme.Controllers
         {
             CartViewModel cartViewModel = new CartViewModel();
             var response = await httpClient.GetAsync("/api/cates/0");
-
+            ViewBag.Index = index;
             if (response.IsSuccessStatusCode)
             {
                 cartViewModel.Product_CategoryDtos = await response.Content.ReadAsJsonAsync<List<Product_CategoryDto>>();
@@ -74,7 +74,7 @@ namespace QuequeTheme.Controllers
         {
             WishViewModel wishViewModel = new WishViewModel();
             var response = await httpClient.GetAsync("/api/cates/0");
-
+            ViewBag.Index = index;
             if (response.IsSuccessStatusCode)
             {
                 wishViewModel.Product_CategoryDtos = await response.Content.ReadAsJsonAsync<List<Product_CategoryDto>>();
