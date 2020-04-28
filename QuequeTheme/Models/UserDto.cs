@@ -7,7 +7,7 @@ namespace QuequeTheme.Models
 {
     public class UserDto
     {
-        public int Id { get; set; }
+         public int Id { get; set; }
         public string NickName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -29,6 +29,6 @@ namespace QuequeTheme.Models
 
         public string ShippingAddress { get; set; }
 
-        public User_Role User_Role { get; set; }
+        public User_Role User_Role { get; set; } = new User_Role();
     }
 }

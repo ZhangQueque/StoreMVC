@@ -17,7 +17,7 @@
                 <div class="top-control " style="font-size:16px">
                     @*<a href="">我的订单</a><span>•</span>*@
                     <a asp-action="Login" id="LoginNav" asp-controller="Account">登录</a>
-                    <a asp-action="Index" id="CenterNav" asp-controller="Admin">欢迎您!<span id="NickNameNav" style=" color:white"></span> </a>
+                    <a asp-action="Index" id="CenterNav" asp-controller="Admin"> <span id="NickNameNav" style=" color:white"></span> 的控制台</a>
                     <a href="javascript:Logout();" id="LogOutNac">注销 </a><span>•</span>
                 </div>
 
@@ -275,8 +275,8 @@
 
                                     <img src="~/Img/qq.png" class="img-responsive" alt="联系我" />
                                     <p style="display:flex;flex-wrap:wrap;justify-content:space-between">
-                                        <button class="btn btn-danger " onclick="ToBuy(@item.ProductId,0,@item.Count,@item.Id)">取消</button>
-                                        <button class="btn btn-success" onclick="ToBuy(@item.ProductId,1,@item.Count,@item.Id)">购买</button>
+                                        <button class="btn btn-danger " onclick="ToBuy(@item.ProductId,0,@item.Count,@item.Id,'@item.Size')">取消</button>
+                                        <button class="btn btn-success" onclick="ToBuy(@item.ProductId,1,@item.Count,@item.Id),'@item.Size'">购买</button>
                                     </p>
                                 </div>
 

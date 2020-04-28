@@ -7,6 +7,15 @@
 function Heart(productId) {
     var token = $.cookie("token");
 
+    if (token == undefined) {
+        layer.confirm('您还没有登录，要前往登录吗?', { icon: 3, title: '缺缺：' }, function (index) {
+            //do something
+            location.href = "/Account/Login";
+            layer.close(index);
+
+        });
+    }
+
     if (token == "null") {
         layer.confirm('您还没有登录，要前往登录吗?', { icon: 3, title: '缺缺：' }, function (index) {
             //do something

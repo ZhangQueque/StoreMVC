@@ -4,6 +4,14 @@ function InsertCart(productId) {
     
     var token = $.cookie("token");
 
+    if (token == undefined) {
+        layer.confirm('您还没有登录，要前往登录吗?', { icon: 3, title: '缺缺：' }, function (index) {
+            //do something
+            location.href = "/Account/Login";
+            layer.close(index);
+
+        });
+    }
     if (token == "null") {
         layer.confirm('您还没有登录，要前往登录吗?', { icon: 3, title: '缺缺：' }, function (index) {
             //do something
@@ -98,16 +106,15 @@ function GoBuy() {
 } 
 
 //购买  --订单新增
-function ToBuy(productId, status, count,cartId) {
+function ToBuy(productId, status, count, cartId, size) {
     var price = parseFloat( $("#TotalPrice").text());
     var token = $.cookie("token");
     var index = layer.load();
-
- 
+  
     $.ajax({
         url: urlBase + '/api/orders',
         type: 'post',
-        data: JSON.stringify({ ProductId: productId, Count: parseInt(count), TotalPrices: price, Status: status }),
+        data: JSON.stringify({ ProductId: productId, Count: parseInt(count), TotalPrices: price, Status: status, Size: size}),
         headers: { "Authorization": "Bearer " + token },
         contentType: 'application/json',
         success: function (res) {

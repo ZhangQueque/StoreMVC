@@ -31,7 +31,7 @@
 
         <header class="main-header">
             <!-- 后台模板名称-->
-            <a href="index2.html" class="logo">
+            <a href="/Home/Index" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>缺</b>商</span>
                 <!-- logo for regular state and mobile devices -->
@@ -391,11 +391,62 @@
 
         <!-- 内容区域 -->
         <div class="content-wrapper">
+            <!-- 页面标题 -->
+            <section class="content-header">
+                <h1>
+                    个人资料
+                    <small> @Model.UserDto.NickName</small>
+                </h1>
+            </section>
+            <div class="row " style="margin-top:16px; ">
+                <div class="box box-primary col-lg-7 ">
 
+
+                    <form id="FormUserData" role="form" enctype="multipart/form-data" class=" col-lg-4">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">昵称</label>
+                                <input type="text" class="form-control" name="NickName" value="@Model.UserDto.NickName" placeholder="请输入昵称">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">邮箱 / 账号 ( <span style="color:dimgray;font-size:12px">请不要随意更改</span> )</label>
+                                <input type="email" class="form-control" name="Email" value="@Model.UserDto.Email" placeholder="请输入邮箱（账号）">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">手机号</label>
+                                <input type="text" class="form-control" name="Phone" value="@Model.UserDto.Phone" placeholder="还没有？绑定一个？">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">收货地址</label>
+                                <input type="text" class="form-control" name="ShippingAddress" value="@Model.UserDto.ShippingAddress" placeholder="请输入收货地址">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputFile">上传头像</label>
+                                <input type="file" name="Image" id="fileimg" onchange="ChangeImg()">
+                                <p class="help-block">
+                                    @if (string.IsNullOrEmpty(Model.UserDto.Image))
+                                    {
+                                        <img id="UserImg" style="height:220px" src="~/Img/touxiang.jpg" class="img-responsive" />
+                                    }
+                                    else
+                                    {
+                                        <img id="UserImg" style="height:220px" src="@Model.UserDto.Image" class="img-responsive" />
+                                    }
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" onclick="Submit()" class="btn btn-primary">保存</button>
+                            </div>
+                        </div><!-- /.box-body -->
+
+                    </form>
+                </div>
+
+            </div>
         </div><!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.0
+                <b>Version</b> 1.0
             </div>
             <strong>Copyright &copy; 2020 <a href="http://beian.miit.gov.cn">晋ICP备20002472号-1</a>.</strong> 缺缺作品
         </footer>
@@ -432,6 +483,8 @@
     <script src="~/js/baseurl.js"></script>
 
     <script src="~/js/admin.js"></script>
+    <script src="~/canvas-nest/canvas-nest.js" color="49,48,76" opacity='0.9' zIndex="1" count="36"></script>
+
 </body>
 
 </html>

@@ -30,6 +30,10 @@ namespace QuequeTheme.Controllers
             ViewBag.Active = "Index";
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
+            if (token==null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
             if (token == "null")
             {
@@ -52,6 +56,14 @@ namespace QuequeTheme.Controllers
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
 
+
+            var numberReponse = await httpClient.GetAsync("/api/admin/number");
+
+            if (numberReponse.IsSuccessStatusCode)
+            {
+                adminViewModel.CommonDatas = await numberReponse.Content.ReadAsJsonAsync<List<CommonData>>();
+            }
+
             return View(adminViewModel);
         }
 
@@ -70,7 +82,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
