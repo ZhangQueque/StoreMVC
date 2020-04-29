@@ -123,7 +123,7 @@ function ToStatus3(orderId,id) {
 function ToStatus5(orderId) {
     var token = $.cookie("token");
     var index2 = layer.load();
-    layer.confirm('确定要收货吗？', { icon: 3 }, function (index) {
+    layer.confirm('确定要退货吗？', { icon: 3 }, function (index) {
         $.ajax({
             url: urlBase + '/api/orders/status5/' + orderId,
             type: 'get',
