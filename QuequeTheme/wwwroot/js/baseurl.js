@@ -25,9 +25,7 @@ $(function () {
 
 function onCommonDataLoad() {
     var token = $.cookie("token");
-
     var index = layer.load();
-
     $.ajax({
         url: urlBase + '/api/users',
         type: 'get',
@@ -37,14 +35,11 @@ function onCommonDataLoad() {
             $("#NickNameNav").text(res.nickName);
             $("#WishCount").text(res.wishCount);
             $("#CartCount").text(res.cartCount);
-
-
             layer.close(index);
         }
     }).fail(function () {
         layer.close(index);
-        location.href = "/Account/Login";
-
+        layer.msg("身份验证已过期，请重新登录！", {icon:5});
     });
 }
 

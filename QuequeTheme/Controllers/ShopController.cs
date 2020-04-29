@@ -39,7 +39,10 @@ namespace QuequeTheme.Controllers
                 cartViewModel.Product_CategoryDtos = await response.Content.ReadAsJsonAsync<List<Product_CategoryDto>>();
             }
             var token = Request.Cookies["token"];
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (token == "null")
             {
                 return RedirectToAction("Login", "Account");
@@ -80,7 +83,10 @@ namespace QuequeTheme.Controllers
                 wishViewModel.Product_CategoryDtos = await response.Content.ReadAsJsonAsync<List<Product_CategoryDto>>();
             }
             var token = Request.Cookies["token"];
-      
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             if (token== "null")
             {           
                 return RedirectToAction("Login","Account");

@@ -15,8 +15,7 @@ function Heart(productId) {
 
         });
     }
-
-    if (token == "null") {
+   else if (token == "null") {
         layer.confirm('您还没有登录，要前往登录吗?', { icon: 3, title: '缺缺：' }, function (index) {
             //do something
             location.href = "/Account/Login";
@@ -49,7 +48,7 @@ function Heart(productId) {
                 }
             }).fail(function () {
                 layer.close(index);
-                layer.msg("服务器错误，请联系管理员！", { icon: 5 });
+                layer.msg("请先登录！", { icon: 5 });
 
             });
 
