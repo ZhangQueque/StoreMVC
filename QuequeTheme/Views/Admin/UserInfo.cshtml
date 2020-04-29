@@ -214,7 +214,7 @@
                     }
 
 
-                    @if (Model.UserDto.User_Role.RoleName != "帮主")
+                    @if (Model.UserDto.User_Role.RoleName == "帮众")
                     {
                         <!--用户中心-->
                         @if (ViewBag.Active == "User")
@@ -406,15 +406,15 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">昵称</label>
-                                <input type="text" class="form-control" name="NickName" value="@Model.UserDto.NickName" placeholder="请输入昵称">
+                                <input type="text" id="NickName" class="form-control" name="NickName" value="@Model.UserDto.NickName" placeholder="请输入昵称">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">邮箱 / 账号 ( <span style="color:dimgray;font-size:12px">请不要随意更改</span> )</label>
-                                <input type="email" class="form-control" name="Email" value="@Model.UserDto.Email" placeholder="请输入邮箱（账号）">
+                                <input type="email" id="Email" class="form-control" name="Email" value="@Model.UserDto.Email" placeholder="请输入邮箱（账号）">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">手机号</label>
-                                <input type="text" class="form-control" name="Phone" value="@Model.UserDto.Phone" placeholder="还没有？绑定一个？">
+                                <input type="text" id="Phone" class="form-control" name="Phone" value="@Model.UserDto.Phone" placeholder="还没有？绑定一个？">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">收货地址</label>
@@ -483,6 +483,7 @@
     <script src="~/js/baseurl.js"></script>
 
     <script src="~/js/admin.js"></script>
+    <script src="~/js/adminUser.js"></script>
     <script src="~/canvas-nest/canvas-nest.js" color="49,48,76" opacity='0.9' zIndex="1" count="36"></script>
 
 </body>

@@ -33,6 +33,7 @@
 
     <script src="~/layer/layer.js"></script>
     <script src="~/js/admin.js"></script>
+    <script src="~/js/adminIndex.js"></script>
     <style>
         /* css 代码  */
     </style>
@@ -228,7 +229,7 @@
                     }
 
 
-                    @if (Model.UserDto.User_Role.RoleName != "帮主")
+                    @if (Model.UserDto.User_Role.RoleName == "帮众")
                     {
                         <!--用户中心-->
                         @if (ViewBag.Active == "User")

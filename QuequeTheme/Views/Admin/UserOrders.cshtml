@@ -31,7 +31,7 @@
 
         <header class="main-header">
             <!-- 后台模板名称-->
-            <a href="index2.html" class="logo">
+            <a href="/Home/Index" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>缺</b>商</span>
                 <!-- logo for regular state and mobile devices -->
@@ -214,7 +214,7 @@
                     }
 
 
-                    @if (Model.UserDto.User_Role.RoleName != "帮主")
+                    @if (Model.UserDto.User_Role.RoleName == "帮众" )
                     {
                         <!--用户中心-->
                         @if (ViewBag.Active == "User")
@@ -391,11 +391,780 @@
 
         <!-- 内容区域 -->
         <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                    我的订单
+                    <small> @Model.UserDto.NickName</small>
+                </h1>
+            </section>
 
+            <div class="row" style="margin-top:16px">
+                <div class="col-md-12">
+                    <!-- Custom Tabs -->
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="@(ViewBag.CardId==1?"active":"")"><a href="#tab_1" data-toggle="tab" aria-expanded="true">全部</a></li>
+                            <li class="@(ViewBag.CardId==2?"active":"")"><a href="#tab_2" data-toggle="tab" aria-expanded="true">待付款订单</a></li>
+                            <li class="@(ViewBag.CardId==3?"active":"")"><a href="#tab_3" data-toggle="tab" aria-expanded="false">待发货订单</a></li>
+                            <li class="@(ViewBag.CardId==4?"active":"")"><a href="#tab_4" data-toggle="tab" aria-expanded="false">待收货订单</a></li>
+                            <li class="@(ViewBag.CardId==5?"active":"")"><a href="#tab_5" data-toggle="tab" aria-expanded="false">已收货订单</a></li>
+                            <li class="@(ViewBag.CardId==6?"active":"")"><a href="#tab_6" data-toggle="tab" aria-expanded="false">退货/换货</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane  @(ViewBag.CardId==1?"active":"")" id="tab_1">
+
+                                <div class="table-responsive ">
+                                    <table class="table table-hover ">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th class="text-center">商品</th>
+                                                <th class="text-center">单价</th>
+                                                <th class="text-center">数量</th>
+                                                <th class="text-center">小计</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.PageListStatus.Data)
+                                            {
+                                                <tr class="text-center ">
+                                                    <td class="col-md-6">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+
+                                                            </div>
+                                                            <div class="col-md-9 text-left">
+                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p>
+                                                                    <strong style="color:#808080;font-size:14px">
+                                                                        @if (!string.IsNullOrEmpty(item.ShortDescribe))
+                                                                        {
+                                                                            <span>@item.ShortDescribe;</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span> This is a short description of the goods, if the goods are not described, then you will see this sentence.</span>
+
+                                                                        }
+                                                                    </strong>
+                                                                </p>
+                                                                <p>
+                                                                    尺码：
+                                                                    <strong style="font-size:15px;color:red">@item.Size ✖</strong>
+                                                                    <strong style="font-size:17px;color:red">@item.Count</strong>
+                                                                </p>
+                                                                <p style="color:red">
+                                                                    @if (item.Status == 0)
+                                                                    {
+                                                                        <strong>未付款</strong>
+                                                                    }
+                                                                    else if (item.Status == 1)
+                                                                    {
+                                                                        <strong>卖家待发货</strong>
+                                                                    }
+                                                                    else if (item.Status == 2)
+                                                                    {
+                                                                        <strong>卖家已发货</strong>
+                                                                    }
+                                                                    else if (item.Status == 3)
+                                                                    {
+                                                                        <strong>交易成功</strong>
+                                                                    }
+                                                                    else if (item.Status == 5)
+                                                                    {
+                                                                        <strong>正在退货中</strong>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <strong>交易关闭</strong>
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><p style="font-size:30px;margin-top:40px">￥@item.Price</p></td>
+                                                    <td><p style="font-size:30px;margin-top:40px">@item.Count</p></td>
+                                                    <td><p style="font-size:30px;color:crimson;margin-top:40px">￥<span id="TotalPrice">@(item.Count*item.Price)</span></p></td>
+
+                                                    <td>
+
+                                                        @if (item.Status == 0)
+                                                        {
+                                                            <p style="margin-top:26px">
+                                                                <button type="button" style="color:#f56954" class="btn btn-block btn-default" onclick="GoBuy(1)" aria-label="Close"><span aria-hidden="true">前往付款</span></button>
+                                                            </p>
+                                                            <p>
+                                                                <button type="button" class="btn btn-block btn-warning" onclick="ToStatus4(@item.Id)" aria-label="Close"><span aria-hidden="true">取消订单</span></button>
+                                                            </p>
+
+                                                            <div id="QQ" style="display:none;background-color:white">
+                                                                <div>
+
+                                                                    <img src="~/Img/qq.png" class="img-responsive" alt="联系我" />
+                                                                    <p style="display:flex;flex-wrap:wrap;justify-content:space-between">
+                                                                        <button class="btn btn-danger " onclick="ToBuy(@item.Id,0)">取消</button>
+                                                                        <button class="btn btn-success" onclick="ToBuy(@item.Id,1)">购买</button>
+                                                                    </p>
+                                                                </div>
+
+                                                            </div>
+                                                        }
+                                                        else if (item.Status == 1)
+                                                        {
+                                                            <p style="margin-top:43px">
+                                                                <button type="button" class="btn btn-block btn-warning" onclick="ToStatus4(@item.Id)" aria-label="Close"><span aria-hidden="true">取消订单</span></button>
+                                                            </p>
+                                                        }
+                                                        else if (item.Status == 2)
+                                                        {
+                                                            <p style="margin-top:43px">
+                                                                <button type="button" class="btn btn-block btn-success" onclick="ToStatus3(@item.Id,0)" aria-label="Close"><span aria-hidden="true">确认收货</span></button>
+                                                            </p>
+                                                        }
+                                                        else if (item.Status == 3)
+                                                        {
+                                                            <p style="margin-top:26px">
+                                                                <button type="button" class="btn btn-block btn-info" onclick="ToStatus5(@item.Id)" aria-label="Close"><span aria-hidden="true">退货</span></button>
+                                                            </p>
+                                                            <p>
+                                                                <button type="button" class="btn btn-block btn-danger" onclick="ToDelete(@item.Id)" aria-label="Close"><span aria-hidden="true">删除记录</span></button>
+                                                            </p>
+                                                        }
+                                                        else if (item.Status == 5)
+                                                        {
+                                                            <p style="margin-top:43px">
+                                                                <button type="button" class="btn btn-block btn-primary" onclick="ToStatus3(@item.Id,1)" aria-label="Close"><span aria-hidden="true">撤销退货</span></button>
+                                                            </p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p style="margin-top:43px">
+                                                                <button type="button" class="btn btn-block btn-danger" onclick="ToDelete(@item.Id)" aria-label="Close"><span aria-hidden="true">删除记录</span></button>
+                                                            </p>
+                                                        }
+
+                                                    </td>
+
+                                                </tr>
+
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation example" style="float:right">
+                                    <ul class="pagination justify-content-end">
+                                        @if (ViewBag.Index == 1)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" dis tabindex="-1" aria-disabled="true">上一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= Model.PageListStatus.TotalPages; i++)
+                                        {
+                                            if (i == ViewBag.Index)
+                                            {
+                                                <li class="page-item active"><a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-index="@i">@i</a></li>
+                                                continue;
+                                            }
+                                            <li class="page-item"><a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-index="@i">@i</a></li>
+
+                                        }
+                                        @if (ViewBag.Index == Model.PageListStatus.TotalPages)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" tabindex="-1" aria-disabled="true">下一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </nav>
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane @(ViewBag.CardId==2?"active":"") " id="tab_2">
+                                <div class="table-responsive ">
+                                    <table class="table table-hover ">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th class="text-center">商品</th>
+                                                <th class="text-center">单价</th>
+                                                <th class="text-center">数量</th>
+                                                <th class="text-center">小计</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.PageListStatus0.Data)
+                                            {
+                                                <tr class="text-center ">
+                                                    <td class="col-md-6">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+
+                                                            </div>
+                                                            <div class="col-md-9 text-left">
+                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p>
+                                                                    <strong style="color:#808080;font-size:14px">
+                                                                        @if (!string.IsNullOrEmpty(item.ShortDescribe))
+                                                                        {
+                                                                            <span>@item.ShortDescribe;</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span> This is a short description of the goods, if the goods are not described, then you will see this sentence.</span>
+
+                                                                        }
+                                                                    </strong>
+                                                                </p>
+                                                                <p>
+                                                                    尺码：
+                                                                    <strong style="font-size:15px;color:red">@item.Size ✖</strong>
+                                                                    <strong style="font-size:17px;color:red">@item.Count</strong>
+                                                                </p>
+                                                                <p style="color:red">
+
+                                                                    <strong>未付款</strong>
+
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><p style="font-size:30px;margin-top:40px">￥@item.Price</p></td>
+                                                    <td><p style="font-size:30px;margin-top:40px">@item.Count</p></td>
+                                                    <td><p style="font-size:30px;color:crimson;margin-top:40px">￥<span id="TotalPrice">@(item.Count*item.Price)</span></p></td>
+
+                                                    <td>
+                                                        <p style="margin-top:26px">
+                                                            <button type="button" style="color:#f56954" class="btn btn-block btn-default" onclick="GoBuy(2)" aria-label="Close"><span aria-hidden="true">前往付款</span></button>
+                                                        </p>
+                                                        <p>
+                                                            <button type="button" class="btn btn-block btn-warning" onclick="ToStatus4(@item.Id)" aria-label="Close"><span aria-hidden="true">取消订单</span></button>
+                                                        </p>
+
+                                                        <div id="QQ2" style="display:none;background-color:white">
+                                                            <div>
+                                                                <img src="~/Img/qq.png" class="img-responsive" alt="联系我" />
+                                                                <p style="display:flex;flex-wrap:wrap;justify-content:space-between">
+                                                                    <button class="btn btn-danger " onclick="ToBuy(@item.Id,0)">取消</button>
+                                                                    <button class="btn btn-success" onclick="ToBuy(@item.Id,1)">购买</button>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation example" style="float:right">
+                                    <ul class="pagination justify-content-end">
+                                        @if (ViewBag.Index == 1)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" dis tabindex="-1" aria-disabled="true">上一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="2" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= Model.PageListStatus0.TotalPages; i++)
+                                        {
+                                            if (i == ViewBag.Index)
+                                            {
+                                                <li class="page-item active"><a class="page-link" asp-action="UserOrders" asp-route-cardId="2" asp-route-index="@i">@i</a></li>
+                                                continue;
+                                            }
+                                            <li class="page-item"><a class="page-link" asp-action="UserOrders" asp-route-cardId="2" asp-route-index="@i">@i</a></li>
+
+                                        }
+                                        @if (ViewBag.Index == Model.PageListStatus0.TotalPages)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" tabindex="-1" aria-disabled="true">下一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="2" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </nav>
+
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane  @(ViewBag.CardId==3?"active":"") " id="tab_3">
+                                <div class="table-responsive ">
+                                    <table class="table table-hover ">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th class="text-center">商品</th>
+                                                <th class="text-center">单价</th>
+                                                <th class="text-center">数量</th>
+                                                <th class="text-center">小计</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.PageListStatus1.Data)
+                                            {
+                                                <tr class="text-center ">
+                                                    <td class="col-md-6">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+
+                                                            </div>
+                                                            <div class="col-md-9 text-left">
+                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p>
+                                                                    <strong style="color:#808080;font-size:14px">
+                                                                        @if (!string.IsNullOrEmpty(item.ShortDescribe))
+                                                                        {
+                                                                            <span>@item.ShortDescribe;</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span> This is a short description of the goods, if the goods are not described, then you will see this sentence.</span>
+
+                                                                        }
+                                                                    </strong>
+                                                                </p>
+                                                                <p>
+                                                                    尺码：
+                                                                    <strong style="font-size:15px;color:red">@item.Size ✖</strong>
+                                                                    <strong style="font-size:17px;color:red">@item.Count</strong>
+                                                                </p>
+                                                                <p style="color:red">
+
+                                                                    <strong>卖家待发货</strong>
+
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><p style="font-size:30px;margin-top:40px">￥@item.Price</p></td>
+                                                    <td><p style="font-size:30px;margin-top:40px">@item.Count</p></td>
+                                                    <td><p style="font-size:30px;color:crimson;margin-top:40px">￥<span id="TotalPrice">@(item.Count*item.Price)</span></p></td>
+
+                                                    <td>
+
+
+                                                        <p style="margin-top:43px">
+                                                            <button type="button" class="btn btn-block btn-warning" onclick="ToStatus4(@item.Id)" aria-label="Close"><span aria-hidden="true">取消订单</span></button>
+                                                        </p>
+
+                                                    </td>
+
+                                                </tr>
+
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation example" style="float:right">
+                                    <ul class="pagination justify-content-end">
+                                        @if (ViewBag.Index == 1)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" dis tabindex="-1" aria-disabled="true">上一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="3" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= Model.PageListStatus1.TotalPages; i++)
+                                        {
+                                            if (i == ViewBag.Index)
+                                            {
+                                                <li class="page-item active"><a class="page-link" asp-action="UserOrders" asp-route-cardId="3" asp-route-index="@i">@i</a></li>
+                                                continue;
+                                            }
+                                            <li class="page-item"><a class="page-link" asp-action="UserOrders" asp-route-cardId="3" asp-route-index="@i">@i</a></li>
+
+                                        }
+                                        @if (ViewBag.Index == Model.PageListStatus1.TotalPages)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" tabindex="-1" aria-disabled="true">下一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="3" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </nav>
+                            </div><!-- /.tab-pane -->
+
+                            <div class="tab-pane  @(ViewBag.CardId==4?"active":"") " id="tab_4">
+                                <div class="table-responsive ">
+                                    <table class="table table-hover ">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th class="text-center">商品</th>
+                                                <th class="text-center">单价</th>
+                                                <th class="text-center">数量</th>
+                                                <th class="text-center">小计</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.PageListStatus2.Data)
+                                            {
+                                                <tr class="text-center ">
+                                                    <td class="col-md-6">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+
+                                                            </div>
+                                                            <div class="col-md-9 text-left">
+                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p>
+                                                                    <strong style="color:#808080;font-size:14px">
+                                                                        @if (!string.IsNullOrEmpty(item.ShortDescribe))
+                                                                        {
+                                                                            <span>@item.ShortDescribe;</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span> This is a short description of the goods, if the goods are not described, then you will see this sentence.</span>
+
+                                                                        }
+                                                                    </strong>
+                                                                </p>
+                                                                <p>
+                                                                    尺码：
+                                                                    <strong style="font-size:15px;color:red">@item.Size ✖</strong>
+                                                                    <strong style="font-size:17px;color:red">@item.Count</strong>
+                                                                </p>
+                                                                <p style="color:red">
+
+                                                                    <strong>卖家已发货</strong>
+
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><p style="font-size:30px;margin-top:40px">￥@item.Price</p></td>
+                                                    <td><p style="font-size:30px;margin-top:40px">@item.Count</p></td>
+                                                    <td><p style="font-size:30px;color:crimson;margin-top:40px">￥<span id="TotalPrice">@(item.Count*item.Price)</span></p></td>
+
+                                                    <td>
+
+
+                                                        <p style="margin-top:43px">
+                                                            <button type="button" class="btn btn-block btn-success" onclick="ToStatus3(@item.Id,0)" aria-label="Close"><span aria-hidden="true">确认收货</span></button>
+                                                        </p>
+
+
+                                                    </td>
+
+                                                </tr>
+
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation example" style="float:right">
+                                    <ul class="pagination justify-content-end">
+                                        @if (ViewBag.Index == 1)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" dis tabindex="-1" aria-disabled="true">上一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="4" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= Model.PageListStatus2.TotalPages; i++)
+                                        {
+                                            if (i == ViewBag.Index)
+                                            {
+                                                <li class="page-item active"><a class="page-link" asp-action="UserOrders" asp-route-cardId="4" asp-route-index="@i">@i</a></li>
+                                                continue;
+                                            }
+                                            <li class="page-item"><a class="page-link" asp-action="UserOrders" asp-route-cardId="4" asp-route-index="@i">@i</a></li>
+
+                                        }
+                                        @if (ViewBag.Index == Model.PageListStatus2.TotalPages)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" tabindex="-1" aria-disabled="true">下一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="4" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </nav>
+                            </div><!-- /.tab-pane -->
+
+                            <div class="tab-pane  @(ViewBag.CardId==5?"active":"") " id="tab_5">
+                                <div class="table-responsive ">
+                                    <table class="table table-hover ">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th class="text-center">商品</th>
+                                                <th class="text-center">单价</th>
+                                                <th class="text-center">数量</th>
+                                                <th class="text-center">小计</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.PageListStatus3.Data)
+                                            {
+                                                <tr class="text-center ">
+                                                    <td class="col-md-6">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+
+                                                            </div>
+                                                            <div class="col-md-9 text-left">
+                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p>
+                                                                    <strong style="color:#808080;font-size:14px">
+                                                                        @if (!string.IsNullOrEmpty(item.ShortDescribe))
+                                                                        {
+                                                                            <span>@item.ShortDescribe;</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span> This is a short description of the goods, if the goods are not described, then you will see this sentence.</span>
+
+                                                                        }
+                                                                    </strong>
+                                                                </p>
+                                                                <p>
+                                                                    尺码：
+                                                                    <strong style="font-size:15px;color:red">@item.Size ✖</strong>
+                                                                    <strong style="font-size:17px;color:red">@item.Count</strong>
+                                                                </p>
+                                                                <p style="color:red">
+
+                                                                    <strong>交易成功</strong>
+
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><p style="font-size:30px;margin-top:40px">￥@item.Price</p></td>
+                                                    <td><p style="font-size:30px;margin-top:40px">@item.Count</p></td>
+                                                    <td><p style="font-size:30px;color:crimson;margin-top:40px">￥<span id="TotalPrice">@(item.Count*item.Price)</span></p></td>
+
+                                                    <td>
+
+                                                        <p style="margin-top:26px">
+                                                            <button type="button" class="btn btn-block btn-info" onclick="ToStatus5(@item.Id)" aria-label="Close"><span aria-hidden="true">退货</span></button>
+                                                        </p>
+                                                        <p>
+                                                            <button type="button" class="btn btn-block btn-danger" onclick="ToDelete(@item.Id)" aria-label="Close"><span aria-hidden="true">删除记录</span></button>
+                                                        </p>
+
+                                                    </td>
+
+                                                </tr>
+
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation example" style="float:right">
+                                    <ul class="pagination justify-content-end">
+                                        @if (ViewBag.Index == 1)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" dis tabindex="-1" aria-disabled="true">上一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="5" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= Model.PageListStatus3.TotalPages; i++)
+                                        {
+                                            if (i == ViewBag.Index)
+                                            {
+                                                <li class="page-item active"><a class="page-link" asp-action="UserOrders" asp-route-cardId="5" asp-route-index="@i">@i</a></li>
+                                                continue;
+                                            }
+                                            <li class="page-item"><a class="page-link" asp-action="UserOrders" asp-route-cardId="5" asp-route-index="@i">@i</a></li>
+
+                                        }
+                                        @if (ViewBag.Index == Model.PageListStatus3.TotalPages)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" tabindex="-1" aria-disabled="true">下一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="5" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </nav>
+                            </div><!-- /.tab-pane -->
+
+                            <div class="tab-pane  @(ViewBag.CardId==6?"active":"") " id="tab_6">
+                                <div class="table-responsive ">
+                                    <table class="table table-hover ">
+                                        <thead>
+                                            <tr class="text-center">
+                                                <th class="text-center">商品</th>
+                                                <th class="text-center">单价</th>
+                                                <th class="text-center">数量</th>
+                                                <th class="text-center">小计</th>
+                                                <th class="text-center">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.PageListStatus5.Data)
+                                            {
+                                                <tr class="text-center ">
+                                                    <td class="col-md-6">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-3">
+                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+
+                                                            </div>
+                                                            <div class="col-md-9 text-left">
+                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p>
+                                                                    <strong style="color:#808080;font-size:14px">
+                                                                        @if (!string.IsNullOrEmpty(item.ShortDescribe))
+                                                                        {
+                                                                            <span>@item.ShortDescribe;</span>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <span> This is a short description of the goods, if the goods are not described, then you will see this sentence.</span>
+
+                                                                        }
+                                                                    </strong>
+                                                                </p>
+                                                                <p>
+                                                                    尺码：
+                                                                    <strong style="font-size:15px;color:red">@item.Size ✖</strong>
+                                                                    <strong style="font-size:17px;color:red">@item.Count</strong>
+                                                                </p>
+                                                                <p style="color:red">
+
+                                                                    <strong>正在退货中</strong>
+
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><p style="font-size:30px;margin-top:40px">￥@item.Price</p></td>
+                                                    <td><p style="font-size:30px;margin-top:40px">@item.Count</p></td>
+                                                    <td><p style="font-size:30px;color:crimson;margin-top:40px">￥<span id="TotalPrice">@(item.Count*item.Price)</span></p></td>
+
+                                                    <td>
+
+
+                                                        <p style="margin-top:43px">
+                                                            <button type="button" class="btn btn-block btn-primary" onclick="ToStatus3(@item.Id,1)" aria-label="Close"><span aria-hidden="true">撤销退货</span></button>
+                                                        </p>
+
+                                                    </td>
+
+                                                </tr>
+
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="Page navigation example" style="float:right">
+                                    <ul class="pagination justify-content-end">
+                                        @if (ViewBag.Index == 1)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" dis tabindex="-1" aria-disabled="true">上一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="6" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= Model.PageListStatus5.TotalPages; i++)
+                                        {
+                                            if (i == ViewBag.Index)
+                                            {
+                                                <li class="page-item active"><a class="page-link" asp-action="UserOrders" asp-route-cardId="6" asp-route-index="@i">@i</a></li>
+                                                continue;
+                                            }
+                                            <li class="page-item"><a class="page-link" asp-action="UserOrders" asp-route-cardId="6" asp-route-index="@i">@i</a></li>
+
+                                        }
+                                        @if (ViewBag.Index == Model.PageListStatus5.TotalPages)
+                                        {
+                                            <li class="page-item disabled">
+                                                <a class="page-link" tabindex="-1" aria-disabled="true">下一页</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="page-item  ">
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="6" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                            </li>
+                                        }
+
+                                    </ul>
+                                </nav>
+                            </div><!-- /.tab-pane -->
+                        </div><!-- /.tab-content -->
+                    </div><!-- nav-tabs-custom -->
+                </div>
+            </div>
         </div><!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.0
+                <b>Version</b> 1.0
             </div>
             <strong>Copyright &copy; 2020 <a href="http://beian.miit.gov.cn">晋ICP备20002472号-1</a>.</strong> 缺缺作品
         </footer>
@@ -427,11 +1196,14 @@
     <script src="~/AdminLTE-2.1.1/dist/js/app.min.js" type="text/javascript"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/AdminLTE-2.1.1/dist/js/demo.js" type="text/javascript"></script>
+    <script src="~/canvas-nest/canvas-nest.js" color="49,48,76" opacity='0.9' zIndex="1" count="36"></script>
+
     <script src="~/lib/jquery.cookie.js"></script>
     <script src="~/layer/layer.js"></script>
     <script src="~/js/baseurl.js"></script>
 
     <script src="~/js/admin.js"></script>
+    <script src="~/js/adminUserOrders.js"></script>
 </body>
 
 </html>

@@ -31,7 +31,7 @@
 
         <header class="main-header">
             <!-- 后台模板名称-->
-            <a href="index2.html" class="logo">
+            <a href="/Home/Index" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>缺</b>商</span>
                 <!-- logo for regular state and mobile devices -->
@@ -214,7 +214,7 @@
                     }
 
 
-                    @if (Model.UserDto.User_Role.RoleName != "帮主")
+                    @if (Model.UserDto.User_Role.RoleName == "帮众")
                     {
                         <!--用户中心-->
                         @if (ViewBag.Active == "User")
@@ -389,13 +389,94 @@
             <!-- /.sidebar -->
         </aside>
 
+        <!-- 页面标题 -->
         <!-- 内容区域 -->
         <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                    安全中心
+                    <small> @Model.UserDto.NickName</small>
+                </h1>
+            </section>
+            <div class="box box-default" style="margin-top:16px">
+                <div class="box-header with-border">
+                    <i class="fa fa-warning"></i>
+                    <h3 class="box-title">修改密码</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-ban"></i> 警告!</h4>
+                        请确保的自己的密码安全！如有泄露请及时修改！
+                    </div>
+                    <form role="form" class="col-lg-4">
+                        <!-- input states -->
+                        <div class="form-group has-success">
+                            <label class="control-label" for="inputSuccess"><i class="fa fa-check"></i> 请输入原密码</label>
+                            <input type="text" class="form-control" id="OldPassword" placeholder="Enter ...">
+                        </div>
+                        <div class="form-group has-warning">
+                            <label class="control-label" for="inputWarning"><i class="fa fa-bell-o"></i> 请输入新密码</label>
+                            <input type="password" class="form-control" id="NewPassword" placeholder="Enter ...">
+                        </div>
+                        <div class="form-group has-warning">
+                            <label class="control-label" for="inputError"><i class="fa fa-bell-o"></i>请再次输入密码</label>
+                            <input type="password" class="form-control" id="NewPassword2" placeholder="Enter ...">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" onclick="PasswordSubmit()" class="btn btn-primary">修改</button>
+                        </div>
+                    </form>
+                </div><!-- /.box-body -->
 
+            </div>
+
+            <div class="box box-default" style="margin-top:16px">
+                <div class="box-header with-border">
+                    <i class="fa fa-warning"></i>
+                    <h3 class="box-title">手机绑定</h3>
+                </div><!-- /.box-header -->
+
+                <div class="box-body">
+                    <div class="alert alert-warning alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-warning"></i> 警告!</h4>
+                        绑定手机号，多一份安全！
+                    </div>
+                    @if (string.IsNullOrEmpty(Model.UserDto.Phone))
+                    {
+                        <span style="color:#001F3F">目前还没有绑定手机号！ <a asp-action="UserInfo" class="btn btn-primary">绑定一个？</a></span>
+                    }
+                    else
+                    {
+                        <span>
+                            当前绑定手机号是：<span style="color:#001F3F"> @Model.UserDto.Phone </span> &nbsp;   <button class="btn btn-danger" onclick="UpdatePhone()">取消绑定</button>
+                        </span>
+                    }
+                </div><!-- /.box-body -->
+            </div>
+
+
+            <div class="box box-default" style="margin-top:16px">
+                <div class="box-header with-border">
+                    <i class="fa fa-warning"></i>
+                    <h3 class="box-title">登录验证</h3>
+                </div><!-- /.box-header -->
+
+                <div class="box-body">
+
+                    <div class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4>	<i class="icon fa fa-check"></i> 警告!</h4>
+                        开启双重登录验证，此功能还在开发！敬请期待！
+
+                    </div>
+                </div><!-- /.box-body -->
+            </div>
         </div><!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.0
+                <b>Version</b> 1.0
             </div>
             <strong>Copyright &copy; 2020 <a href="http://beian.miit.gov.cn">晋ICP备20002472号-1</a>.</strong> 缺缺作品
         </footer>
@@ -427,11 +508,13 @@
     <script src="~/AdminLTE-2.1.1/dist/js/app.min.js" type="text/javascript"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/AdminLTE-2.1.1/dist/js/demo.js" type="text/javascript"></script>
+    <script src="~/canvas-nest/canvas-nest.js" color="49,48,76" opacity='0.9' zIndex="1" count="36"></script>
+
     <script src="~/lib/jquery.cookie.js"></script>
     <script src="~/layer/layer.js"></script>
     <script src="~/js/baseurl.js"></script>
-
     <script src="~/js/admin.js"></script>
+    <script src="~/js/adminUserSecurity.js"></script>
 </body>
 
 </html>

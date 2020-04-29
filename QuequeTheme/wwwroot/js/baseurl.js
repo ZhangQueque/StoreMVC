@@ -39,7 +39,11 @@ function onCommonDataLoad() {
         }
     }).fail(function () {
         layer.close(index);
-        layer.msg("身份验证已过期，请重新登录！", {icon:5});
+        layer.msg("身份验证已过期，请重新登录！", { icon: 5 }, function () {
+            $.cookie("token", null, { path: '/' });
+
+            location.href = "/Account/Login";
+        });
     });
 }
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AspNetCore.Http.Extensions;
 using QuequeTheme.Models;
- 
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace QuequeTheme.Controllers
 {
@@ -30,7 +30,7 @@ namespace QuequeTheme.Controllers
             ViewBag.Active = "Index";
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
-            if (token==null)
+            if (token == null)
             {
                 return RedirectToAction("Login", "Account");
             }
@@ -46,7 +46,7 @@ namespace QuequeTheme.Controllers
 
             if (userReponse.IsSuccessStatusCode)
             {
-                adminViewModel.UserDto =await userReponse.Content.ReadAsJsonAsync<UserDto>();
+                adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
 
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
@@ -119,7 +119,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -142,8 +145,10 @@ namespace QuequeTheme.Controllers
         /// 用户订单
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> UserOrders()
+        public async Task<IActionResult> UserOrders(int index = 1, int size = 5,int cardId=2)
         {
+            ViewBag.Index = index;
+            ViewBag.CardId = cardId;
             ViewBag.Active = "User";
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
@@ -152,7 +157,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -167,6 +175,26 @@ namespace QuequeTheme.Controllers
             if (logReponse.IsSuccessStatusCode)
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
+            }
+
+            List<OrderDto> orderDtos = new List<OrderDto>();
+
+
+            var orderReponse = await httpClient.GetAsync("/api/orders");
+
+            if (orderReponse.IsSuccessStatusCode)
+            {
+                orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();
+                adminViewModel.PageListStatus = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m=>m.CreateTime).AsQueryable(), index, size);
+                adminViewModel.PageListStatus0 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 0).AsQueryable(), index, size);
+
+                adminViewModel.PageListStatus1 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 1).AsQueryable(), index, size);
+
+                adminViewModel.PageListStatus2 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 2).AsQueryable(), index, size);
+                adminViewModel.PageListStatus3 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 3).AsQueryable(), index, size);
+
+                adminViewModel.PageListStatus5 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 5).AsQueryable(), index, size);
+
             }
             return View(adminViewModel);
         }
@@ -203,6 +231,9 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+
+
+
             return View(adminViewModel);
         }
 
@@ -353,8 +384,9 @@ namespace QuequeTheme.Controllers
         /// 待发货订单
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> OrderShipments()
+        public async Task<IActionResult> OrderShipments(int index = 1, int size = 5)
         {
+            ViewBag.Index = index;
             ViewBag.Active = "Order";
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
@@ -379,6 +411,20 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+
+            List<OrderDto> orderDtos = new List<OrderDto>();
+
+
+            var orderReponse = await httpClient.GetAsync("/api/orders/all");
+
+            if (orderReponse.IsSuccessStatusCode)
+            {
+                orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();             
+                adminViewModel.PageListStatus1 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 1).AsQueryable(), index, size);
+            }
+
+
+
             return View(adminViewModel);
         }
 
@@ -386,8 +432,9 @@ namespace QuequeTheme.Controllers
         /// 已收货订单
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> OrderReceiving()
+        public async Task<IActionResult> OrderReceiving(int index = 1, int size = 5)
         {
+            ViewBag.Index = index;
             ViewBag.Active = "Order";
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
@@ -412,6 +459,19 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+
+            List<OrderDto> orderDtos = new List<OrderDto>();
+
+
+            var orderReponse = await httpClient.GetAsync("/api/orders/all");
+
+            if (orderReponse.IsSuccessStatusCode)
+            {
+                orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();
+                adminViewModel.PageListStatus3 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 3).AsQueryable(), index, size);
+            }
+
+
             return View(adminViewModel);
         }
 
@@ -419,8 +479,10 @@ namespace QuequeTheme.Controllers
         /// 待退款订单
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> OrderRefund()
+        public async Task<IActionResult> OrderRefund(int index = 1, int size = 5)
         {
+            ViewBag.Index = index;
+
             ViewBag.Active = "Order";
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
@@ -445,6 +507,17 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+            List<OrderDto> orderDtos = new List<OrderDto>();
+
+
+            var orderReponse = await httpClient.GetAsync("/api/orders/all");
+
+            if (orderReponse.IsSuccessStatusCode)
+            {
+                orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();
+                adminViewModel.PageListStatus5 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 5).AsQueryable(), index, size);
+            }
+
             return View(adminViewModel);
         }
 
@@ -452,8 +525,10 @@ namespace QuequeTheme.Controllers
         /// 全部订单
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> OrderAll()
+        public async Task<IActionResult> OrderAll(int index = 1, int size = 5)
         {
+            ViewBag.Index = index;
+
             ViewBag.Active = "Order";
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
@@ -477,6 +552,15 @@ namespace QuequeTheme.Controllers
             if (logReponse.IsSuccessStatusCode)
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
+            }
+
+            var orderReponse = await httpClient.GetAsync("/api/orders/all");
+            List<OrderDto> orderDtos = new List<OrderDto>();
+
+            if (orderReponse.IsSuccessStatusCode)
+            {
+                orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();
+                adminViewModel.PageListStatus = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).AsQueryable(), index, size);
             }
             return View(adminViewModel);
         }
