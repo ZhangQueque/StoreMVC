@@ -230,16 +230,20 @@
                                     </li>
                                     @if (Model.Product.Product_Images.Count == 0)
                                     {
-                                        <li data-thumb="../../Img/cat-3.jpg">
-                                            <div class="thumb-image"> <img src="~/Img/cat-3.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                                        <li data-thumb="@Model.Product.Pictrue">
+                                            <div class="thumb-image"> <img src="@Model.Product.Pictrue" data-imagezoom="true" class="img-responsive" alt=""> </div>
                                         </li>
-                                        <li data-thumb="../../Img/cat-2.jpg">
-                                            <div class="thumb-image"> <img src="~/Img/cat-2.jpg" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                                        <li data-thumb="@Model.Product.Pictrue">
+                                            <div class="thumb-image"> <img src="@Model.Product.Pictrue" data-imagezoom="true" class="img-responsive" alt=""> </div>
                                         </li>
 
                                     }
                                     else
                                     {
+                                        <li data-thumb="@Model.Product.Pictrue">
+                                            <div class="thumb-image"> <img src="@Model.Product.Pictrue" data-imagezoom="true" class="img-responsive" alt=""> </div>
+                                        </li>
+
                                         @foreach (var item in Model.Product.Product_Images)
                                         {
                                             <li data-thumb="@item.Image">

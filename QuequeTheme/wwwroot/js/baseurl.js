@@ -1,5 +1,5 @@
-﻿//var urlBase = "https://localhost:5001";
-var urlBase = "https://www.zhangqueque.top:5001";
+﻿var urlBase = "https://localhost:5001";
+//var urlBase = "https://www.zhangqueque.top:5001";
 
 $(function () {
     var token = $.cookie("token");
