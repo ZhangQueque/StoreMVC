@@ -33,7 +33,7 @@ function ImageCreate() {
     layer.confirm("确定要提交吗？", { icon: 3 }, function (index) {
         var token = $.cookie("token");
         var productId = $("#ProductId").text();
-        //建立表单对象
+         //建立表单对象
         var formData = new FormData($("#FormByProductImage")[0]); //获取表单数据，切记id
         var index2 = layer.load();
         $.ajax({
