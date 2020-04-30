@@ -82,6 +82,10 @@ namespace QuequeTheme.Controllers
             {
                 detailViewModel.Product = await responseProduct.Content.ReadAsJsonAsync<Product>();
             }
+            else
+            {
+                detailViewModel.Product = new Product();
+            }
 
             return View(detailViewModel);
         }

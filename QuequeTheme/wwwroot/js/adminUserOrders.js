@@ -1,7 +1,7 @@
 ﻿
 function GoBuy(id) {
     layer.confirm('因为这是虚拟物品，当你点击“取消”时订单会变为“未支付状态”；当你点击“购买”时订单会变为“已支付状态”', { icon: 3, title: '购买须知：' }, function (index) {
-        if (id==2) {
+        if (id == 2) {
             layer.open({
                 type: 1,
                 title: false,
@@ -24,7 +24,7 @@ function GoBuy(id) {
                 content: $('#QQ'),
             });
         }
-      
+
         layer.close(index);
     });
 
@@ -35,7 +35,7 @@ function GoBuy(id) {
 
 //订单支付
 function ToBuy(orderId, status) {
-     var token = $.cookie("token");
+    var token = $.cookie("token");
     var index = layer.load();
 
     if (status == 0) {
@@ -51,7 +51,12 @@ function ToBuy(orderId, status) {
             contentType: 'application/json',
             success: function (res) {
                 layer.close(index);
-                layer.msg("购买成功！", { icon: 6 }, function () { location.href = "/Admin/UserOrders?cardId=3";});
+                if (res.code == 1) {
+                    layer.msg("商品已下架，无法支付！", { icon: 5 });
+                } else {
+                    layer.msg("购买成功！", { icon: 6 }, function () { location.href = "/Admin/UserOrders?cardId=3"; });
+
+                }
             }
         }).fail(function () {
             layer.close(index);
@@ -88,7 +93,7 @@ function ToStatus4(orderId) {
 
 
 //确认收货
-function ToStatus3(orderId,id) {
+function ToStatus3(orderId, id) {
     var token = $.cookie("token");
     var index2 = layer.load();
     layer.confirm('确定要收货吗？', { icon: 3 }, function (index) {
@@ -99,7 +104,7 @@ function ToStatus3(orderId,id) {
             contentType: 'application/json',
             success: function (res) {
                 layer.close(index2);
-                if (id==1) {
+                if (id == 1) {
                     layer.msg("撤销成功！", { icon: 6 }, function () { location.href = "/Admin/UserOrders?cardId=5"; });
 
                 } else {
@@ -144,10 +149,10 @@ function ToStatus5(orderId) {
 }
 
 
- 
+
 
 //删除记录
-function ToDelete(orderId,id) {
+function ToDelete(orderId, id) {
     var token = $.cookie("token");
     var index2 = layer.load();
     layer.confirm('确定要删除记录吗？', { icon: 3 }, function (index) {
@@ -158,7 +163,7 @@ function ToDelete(orderId,id) {
             contentType: 'application/json',
             success: function (res) {
                 layer.close(index2);
-                if (id==1) {
+                if (id == 1) {
                     layer.msg(res, { icon: 6 }, function () { location.href = "/Admin/OrderAll"; });
 
                 } else {
@@ -176,7 +181,7 @@ function ToDelete(orderId,id) {
 
 
 //发货
-function ToStatus2(orderId,id) {
+function ToStatus2(orderId, id) {
     var token = $.cookie("token");
     var index2 = layer.load();
     layer.confirm('确定要发货吗？', { icon: 3 }, function (index) {
@@ -184,10 +189,10 @@ function ToStatus2(orderId,id) {
             url: urlBase + '/api/orders/status2/' + orderId,
             type: 'get',
             headers: { "Authorization": "Bearer " + token },
-            contentType: 'application/json', 
+            contentType: 'application/json',
             success: function (res) {
                 layer.close(index2);
-                if (id==1) {
+                if (id == 1) {
                     layer.msg("发货成功！", { icon: 6 }, function () { location.href = "/Admin/OrderAll" });
 
                 } else {
@@ -207,7 +212,7 @@ function ToStatus2(orderId,id) {
 
 
 //同意退款
-function ToStatus5To4(orderId,id) {
+function ToStatus5To4(orderId, id) {
     var token = $.cookie("token");
     var index2 = layer.load();
     layer.confirm('确定要同意退款吗？', { icon: 3 }, function (index) {
@@ -218,7 +223,7 @@ function ToStatus5To4(orderId,id) {
             contentType: 'application/json',
             success: function (res) {
                 layer.close(index2);
-                if (id==1) {
+                if (id == 1) {
                     layer.msg("退款成功！", { icon: 6 }, function () { location.href = "/Admin/OrderAll"; });
 
                 } else {

@@ -48,7 +48,10 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
@@ -63,6 +66,7 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.CommonDatas = await numberReponse.Content.ReadAsJsonAsync<List<CommonData>>();
             }
+      
 
             return View(adminViewModel);
         }
@@ -94,13 +98,17 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+        
             return View(adminViewModel);
         }
 
@@ -131,13 +139,17 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+      
             return View(adminViewModel);
         }
 
@@ -169,7 +181,10 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
@@ -196,6 +211,7 @@ namespace QuequeTheme.Controllers
                 adminViewModel.PageListStatus5 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 5).AsQueryable(), index, size);
 
             }
+        
             return View(adminViewModel);
         }
         #endregion
@@ -205,8 +221,10 @@ namespace QuequeTheme.Controllers
         /// 用户管理
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> UserMagger()
+        public async Task<IActionResult> UserMagger(int index = 1, int size = 5)
         {
+            ViewBag.Index = index;
+
             ViewBag.Active = "UserMagger";
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
@@ -215,7 +233,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -224,7 +245,10 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
@@ -232,8 +256,14 @@ namespace QuequeTheme.Controllers
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
 
+            var userRespone = await httpClient.GetAsync("/api/users/all");
+            if (userRespone.IsSuccessStatusCode)
+            {
+               var users = await userRespone.Content.ReadAsJsonAsync<List<UserDto>>();
 
-
+                adminViewModel.PageListByUser =await PageList<UserDto>.CreateLayuiList(users.AsQueryable(),index,size);
+            }
+    
             return View(adminViewModel);
         }
 
@@ -253,7 +283,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -262,13 +295,17 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+           
             return View(adminViewModel);
         }
 
@@ -276,7 +313,7 @@ namespace QuequeTheme.Controllers
         /// 商品图片
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> ProductImage()
+        public async Task<IActionResult> ProductImage(int productId)
         {
             ViewBag.Active = "Product";
             AdminViewModel adminViewModel = new AdminViewModel();
@@ -286,7 +323,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -295,6 +335,10 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
@@ -302,16 +346,37 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+  
+
+            var productResponse = await httpClient.GetAsync($"/api/0/products/{productId}");
+
+            if (productResponse.IsSuccessStatusCode)
+            {
+                adminViewModel.Product = await productResponse.Content.ReadAsJsonAsync<Product>();
+            }
+            else
+            {
+                adminViewModel.Product = new Product();
+            }
+
+            var imageResponse = await httpClient.GetAsync($"/api/0/products/images/{productId}");
+
+            if (imageResponse.IsSuccessStatusCode)
+            {
+                adminViewModel.Product_Images = await imageResponse.Content.ReadAsJsonAsync<List<Product_Image>>();
+            }
+           
+
             return View(adminViewModel);
         }
 
 
 
         /// <summary>
-        /// 商品详情
+        /// 商品博客
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> ProductBlog()
+        public async Task<IActionResult> ProductBlog(int productId)
         {
             ViewBag.Active = "Product";
             AdminViewModel adminViewModel = new AdminViewModel();
@@ -321,7 +386,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -330,12 +398,25 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
+            }
+            var productResponse = await httpClient.GetAsync($"/api/0/products/{productId}");
+
+            if (productResponse.IsSuccessStatusCode)
+            {
+                adminViewModel.Product = await productResponse.Content.ReadAsJsonAsync<Product>();
+            }
+            else
+            {
+                adminViewModel.Product = new Product();
             }
             return View(adminViewModel);
         }
@@ -344,9 +425,13 @@ namespace QuequeTheme.Controllers
         /// 所有商品管理
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> ProductMagger()
+        public async Task<IActionResult> ProductMagger(int index = 1, int size = 10,string name="")
         {
+            ViewBag.Index = index;
+            ViewBag.Name = name;
+
             ViewBag.Active = "Product";
+
             AdminViewModel adminViewModel = new AdminViewModel();
             var token = Request.Cookies["token"];
 
@@ -363,15 +448,85 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
             {
                 adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
             }
+
+
+            var productReponse = await httpClient.GetAsync($"/api/0/products/all?index={index}&size={size}&name={name}");
+
+            if (productReponse.IsSuccessStatusCode)
+            {
+                adminViewModel.PageListByProduct = await productReponse.Content.ReadAsJsonAsync<PageList<Product>>();
+            }
+           
+
             return View(adminViewModel);
         }
+
+
+        /// <summary>
+        /// 商品编辑
+        /// </summary>
+        /// <param name="productId">商品主键</param>
+        /// <returns></returns>
+        public async Task<IActionResult> ProductEdit(int productId)
+        {
+            ViewBag.Active = "Product";
+            AdminViewModel adminViewModel = new AdminViewModel();
+            var token = Request.Cookies["token"];
+
+            if (token == "null")
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var userReponse = await httpClient.GetAsync("/api/admin/user");
+
+            if (userReponse.IsSuccessStatusCode)
+            {
+                adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
+
+            if (logReponse.IsSuccessStatusCode)
+            {
+                adminViewModel.LogMessages = await logReponse.Content.ReadAsJsonAsync<List<LogMessage>>();
+            }
+          
+
+            var productResponse = await httpClient.GetAsync($"/api/0/products/{productId}");
+
+            if (productResponse.IsSuccessStatusCode)
+            {
+                adminViewModel.Product = await productResponse.Content.ReadAsJsonAsync<Product>();
+            }
+            else
+            {
+                adminViewModel.Product = new Product();
+            }
+
+            return View(adminViewModel);
+           
+        }
+
+
         #endregion
 
 
@@ -395,7 +550,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -403,6 +561,10 @@ namespace QuequeTheme.Controllers
             if (userReponse.IsSuccessStatusCode)
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
             }
 
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
@@ -422,7 +584,7 @@ namespace QuequeTheme.Controllers
                 orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();             
                 adminViewModel.PageListStatus1 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 1).AsQueryable(), index, size);
             }
-
+          
 
 
             return View(adminViewModel);
@@ -443,7 +605,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -452,7 +617,10 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
@@ -470,7 +638,7 @@ namespace QuequeTheme.Controllers
                 orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();
                 adminViewModel.PageListStatus3 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 3).AsQueryable(), index, size);
             }
-
+           
 
             return View(adminViewModel);
         }
@@ -491,7 +659,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -500,7 +671,10 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
@@ -517,6 +691,7 @@ namespace QuequeTheme.Controllers
                 orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();
                 adminViewModel.PageListStatus5 = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).Where(m => m.Status == 5).AsQueryable(), index, size);
             }
+            
 
             return View(adminViewModel);
         }
@@ -537,7 +712,10 @@ namespace QuequeTheme.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
+            if (token == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var userReponse = await httpClient.GetAsync("/api/admin/user");
@@ -546,7 +724,10 @@ namespace QuequeTheme.Controllers
             {
                 adminViewModel.UserDto = await userReponse.Content.ReadAsJsonAsync<UserDto>();
             }
-
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var logReponse = await httpClient.GetAsync("/api/admin/logmsg");
 
             if (logReponse.IsSuccessStatusCode)
@@ -562,6 +743,7 @@ namespace QuequeTheme.Controllers
                 orderDtos = await orderReponse.Content.ReadAsJsonAsync<List<OrderDto>>();
                 adminViewModel.PageListStatus = await PageList<OrderDto>.CreateLayuiList(orderDtos.OrderByDescending(m => m.CreateTime).AsQueryable(), index, size);
             }
+           
             return View(adminViewModel);
         }
 

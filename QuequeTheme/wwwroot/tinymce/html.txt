@@ -1,0 +1,36 @@
+ tinymce.init({
+        selector: '#mytextarea',
+        language: 'zh_CN',
+        menu: {
+            my1: { title: '我的菜单', items: 'copy paste' }
+        },
+        statusbar: false,
+        width: 800,
+        height:300,
+        plugins: ['print','searchreplace', 'quickbars', 'link', 'table', 'code', 'codesample', 'emoticons','pagebreak', 'hr', 'preview','lists, advlist'], //选择需加载的插件
+
+        //博客编辑栏
+        toolbar: [
+            'undo |redo  |searchreplace | blockquote |pagebreak| hr |removeformat| code|styleselect |fontselect|fontsizeselect',
+            ' indent |underline |strikethrough  |forecolor |emoticons |alignleft |aligncenter | alignright | alignjustify |bullist numlist|  link  |quickimage | table | codesample  |preview |print '
+        ],
+
+        //聊天工具栏
+        //toolbar: 'emoticons | forecolor  | quickimage | codesample |fontselect |fontsizeselect ',
+     
+        menubar: false, //隐藏菜单栏(false隐藏)
+        
+        skin: 'oxide-dark',
+        //inline: true, //开启内联模式
+        //toolbar: true, //隐藏工具栏
+        //media_live_embeds: true,
+        //选中时出现的快捷工具，与插件有依赖关系
+        quickbars_selection_toolbar: 'bold italic forecolor  backcolor | link blockquote quickimage | codesample',
+    });
+
+    function Get() {
+        var cnt = tinyMCE.editors["mytextarea"].getContent();
+        console.log(cnt);
+        $("#Test").html(cnt);
+        alert(cnt);
+    }

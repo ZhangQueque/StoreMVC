@@ -31,7 +31,7 @@
 
         <header class="main-header">
             <!-- 后台模板名称-->
-            <a href="index2.html" class="logo">
+            <a href="/Home/Index" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>缺</b>商</span>
                 <!-- logo for regular state and mobile devices -->
@@ -132,7 +132,27 @@
                                         <img src="@Model.UserDto.Image" class="img-circle" alt="@Model.UserDto.NickName" />
                                     }
                                     <p>
-                                        可爱的缺缺们！
+                                        <a href="#">
+                                            <i class="fa fa-circle  " style="color:lawngreen"></i>
+                                            @if (Model.UserDto.User_Role.RoleName == "帮主")
+                                            {
+                                                <strong style="color:#f56954">@Model.UserDto.User_Role.RoleName</strong>
+                                            }
+                                            else if (Model.UserDto.User_Role.RoleName == "帮主夫人")
+                                            {
+                                                <strong style="color:#D81B60">@Model.UserDto.User_Role.RoleName</strong>
+
+                                            }
+                                            else if (Model.UserDto.User_Role.RoleName == "副帮主")
+                                            {
+                                                <strong style="color:#00a65a">@Model.UserDto.User_Role.RoleName</strong>
+
+                                            }
+                                            else
+                                            {
+                                                <strong style="color:white">@Model.UserDto.User_Role.RoleName</strong>
+                                            }
+                                        </a>
                                         <small>欢迎加入炸天帮！</small>
                                     </p>
                                 </li>
@@ -188,7 +208,27 @@
                     <div class="pull-left info">
                         <p>@Model.UserDto.NickName</p>
 
-                        <a href="#"><i class="fa fa-circle text-success"></i> @Model.UserDto.User_Role.RoleName</a>
+                        <a href="#">
+                            <i class="fa fa-circle  " style="color:lawngreen"></i>
+                            @if (Model.UserDto.User_Role.RoleName == "帮主")
+                            {
+                                <strong style="color:#f56954">@Model.UserDto.User_Role.RoleName</strong>
+                            }
+                            else if (Model.UserDto.User_Role.RoleName == "帮主夫人")
+                            {
+                                <strong style="color:#D81B60">@Model.UserDto.User_Role.RoleName</strong>
+
+                            }
+                            else if (Model.UserDto.User_Role.RoleName == "副帮主")
+                            {
+                                <strong style="color:#00a65a">@Model.UserDto.User_Role.RoleName</strong>
+
+                            }
+                            else
+                            {
+                                <strong style="color:white">@Model.UserDto.User_Role.RoleName</strong>
+                            }
+                        </a>
                     </div>
                 </div>
 
@@ -214,7 +254,7 @@
                     }
 
 
-                    @if (Model.UserDto.User_Role.RoleName != "帮主")
+                    @if (Model.UserDto.User_Role.RoleName == "帮众")
                     {
                         <!--用户中心-->
                         @if (ViewBag.Active == "User")
@@ -318,7 +358,7 @@
                                     <li><a asp-action="ProductMagger"><i class="fa fa-circle-o"></i> 所有商品</a></li>
                                     <li><a asp-action="ProductCreate"><i class="fa fa-circle-o"></i> 商品上架</a></li>
                                     <li><a asp-action="ProductImage"><i class="fa fa-circle-o"></i> 商品图片</a></li>
-                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品详情</a></li>
+                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品博客</a></li>
                                 </ul>
                             </li>
                         }
@@ -334,7 +374,7 @@
                                     <li><a asp-action="ProductMagger"><i class="fa fa-circle-o"></i> 所有商品</a></li>
                                     <li><a asp-action="ProductCreate"><i class="fa fa-circle-o"></i> 商品上架</a></li>
                                     <li><a asp-action="ProductImage"><i class="fa fa-circle-o"></i> 商品图片</a></li>
-                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品详情</a></li>
+                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品博客</a></li>
                                 </ul>
                             </li>
 
@@ -391,11 +431,209 @@
 
         <!-- 内容区域 -->
         <div class="content-wrapper">
+            <section class="content-header">
+                <h1>
+                    用户管理
+                    <small>@Model.UserDto.NickName</small>
+                </h1>
+            </section>
+            <div class="col-md-12" style="margin-top:16px">
+                <div class="box box-default">
 
+                    <div class="box-body">
+                        <div class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4>
+                                <i class="icon fa fa-warning"></i> 警告!  <span style="font-size:13px">  请谨慎操作！</span>
+                            </h4>
+                            <form class="form-inline  ">
+                                <input class="form-control  " type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-success  " type="button" onclick="Search()">搜索</button>
+                            </form>
+
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        <th>编号</th>
+                                        <th>昵称</th>
+                                        <th>邮箱</th>
+                                        <th>手机号</th>
+                                        <th>当前角色</th>
+                                        <th>状态</th>
+                                        <th>登录状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.PageListByUser.Data)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <p style="margin-top:8px">
+                                                    <strong style="color:#605ca8"># @item.Id</strong>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p style="margin-top:8px">
+                                                    <strong style="color:#111111">@item.NickName</strong>
+                                                </p>
+                                            </td>
+                                            <td style="width:200px">
+                                                <p style="margin-top:8px">
+                                                    <strong style="color:#3c8dbc">
+                                                        @if (!string.IsNullOrEmpty(item.Email))
+                                                        {
+                                                            <span> @item.Email</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>未绑定</span>
+                                                        }
+                                                    </strong>
+                                                </p>
+                                            </td>
+                                            <td style="width:250px">
+
+                                                <p style="margin-top:8px">
+                                                    <strong style="color:#3c8dbc">
+                                                        @if (!string.IsNullOrEmpty(item.Phone))
+                                                        {
+                                                            <span> @(item.Phone.Substring(0,7))⭐⭐⭐⭐⭐⭐</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>未绑定</span>
+                                                        }
+                                                    </strong>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p style="margin-top:8px">
+                                                    @if (@item.User_Role.RoleName == "帮主")
+                                                    {
+                                                        <strong style="color:#f56954">@item.User_Role.RoleName</strong>
+                                                    }
+                                                    else if (@item.User_Role.RoleName == "帮主夫人")
+                                                    {
+                                                        <strong style="color:#D81B60">@item.User_Role.RoleName</strong>
+
+                                                    }
+                                                    else if (@item.User_Role.RoleName == "副帮主")
+                                                    {
+                                                        <strong style="color:#00a65a">@item.User_Role.RoleName</strong>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <strong style="color:#001F3F">@item.User_Role.RoleName</strong>
+                                                    }
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p style="margin-top:8px">
+                                                    @if (item.Status == 0)
+                                                    {
+
+                                                        <strong style="color:#00a65a">已启用</strong>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <strong style="color:#f56954">已禁用</strong>
+
+                                                    }
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p style="margin-top:8px">
+                                                    @if (item.CheckLogin.Status == 0)
+                                                    {
+                                                        <i class="fa fa-circle " style="color:lawngreen">
+                                                            <strong style="color:#001F3F">在线</strong>
+                                                        </i>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fa fa-circle " style="color:gray">
+                                                            <strong class="text-gray">离线</strong>
+                                                        </i>
+                                                    }
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <div class="form-inline">
+                                                    @if (item.Status == 0)
+                                                    {
+                                                        <button class="btn  btn-warning" onclick="ToUserStatus(@item.Id)">禁用</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn  btn-success" onclick="ToUserStatus(@item.Id)">启用</button>
+
+                                                    }
+                                                    @if (item.CheckLogin.Status == 0)
+                                                    {
+                                                        <button class="btn  btn-danger" onclick="ToUserLogOut(@item.Id)">强制下线</button>
+
+                                                    }
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav aria-label="Page navigation example" style="float:right">
+                            <ul class="pagination justify-content-end">
+                                @if (ViewBag.Index == 1)
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" dis tabindex="-1" aria-disabled="true">上一页</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item  ">
+                                        <a class="page-link" asp-action="UserMagger" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                    </li>
+                                }
+                                @for (int i = 1; i <= Model.PageListByUser.TotalPages; i++)
+                                {
+                                    if (i == ViewBag.Index)
+                                    {
+                                        <li class="page-item active"><a class="page-link" asp-action="UserMagger" asp-route-index="@i">@i</a></li>
+                                        continue;
+                                    }
+                                    <li class="page-item"><a class="page-link" asp-action="UserMagger" asp-route-index="@i">@i</a></li>
+
+                                }
+                                @if (ViewBag.Index == Model.PageListByUser.TotalPages)
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" tabindex="-1" aria-disabled="true">下一页</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item  ">
+                                        <a class="page-link" asp-action="UserMagger" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                    </li>
+                                }
+
+                            </ul>
+                        </nav>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
         </div><!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.0
+                <b>Version</b> 1.0
             </div>
             <strong>Copyright &copy; 2020 <a href="http://beian.miit.gov.cn">晋ICP备20002472号-1</a>.</strong> 缺缺作品
         </footer>
@@ -427,11 +665,14 @@
     <script src="~/AdminLTE-2.1.1/dist/js/app.min.js" type="text/javascript"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/AdminLTE-2.1.1/dist/js/demo.js" type="text/javascript"></script>
+    <script src="~/canvas-nest/canvas-nest.js" color="49,48,76" opacity='0.9' zIndex="1" count="36"></script>
+
     <script src="~/lib/jquery.cookie.js"></script>
     <script src="~/layer/layer.js"></script>
     <script src="~/js/baseurl.js"></script>
 
     <script src="~/js/admin.js"></script>
+    <script src="~/js/adminUserMagger.js"></script>
 </body>
 
 </html>

@@ -30,5 +30,8 @@ namespace QuequeTheme.Models
         public string ShippingAddress { get; set; }
 
         public User_Role User_Role { get; set; } = new User_Role();
+
+        public CheckLogin CheckLogin { get; set; } = new CheckLogin();
+
     }
 }

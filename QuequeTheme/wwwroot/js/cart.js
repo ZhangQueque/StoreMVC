@@ -1,7 +1,7 @@
 ﻿//加入购物车
 function InsertCart(productId) {
 
-    
+
     var token = $.cookie("token");
 
     if (token == undefined) {
@@ -23,21 +23,31 @@ function InsertCart(productId) {
     else {
         var num = $("#Number").val();
         var size = $("#Size:checked").val();
+        if (num > 99) {
+            layer.msg("购买数量不能大于99！", { icon: 5 });
+            return;
+        }
         layer.confirm('确定要加入购物车吗?', { icon: 3, title: '缺缺：' }, function (index) {
             //do something
             var index = layer.load();
             $.ajax({
                 url: urlBase + '/api/carts',
                 type: 'post',
-                data: JSON.stringify({ ProductId: productId, Count: parseInt(num), Size: size}),
+                data: JSON.stringify({ ProductId: productId, Count: parseInt(num), Size: size }),
                 headers: { "Authorization": "Bearer " + token },
                 contentType: 'application/json',
                 success: function (res) {
                     layer.close(index);
-                    layer.msg("加入购物车成功", { icon: 6 }, function () { onCommonDataLoad(); });                   
+                    if (res.code == 1) {
+                        layer.msg(res.msg, { icon: 5 });
+
+                    } else {
+                        layer.msg(res.msg, { icon: 6 }, function () { onCommonDataLoad(); });
+
+                    }
                 }
             }).fail(function () {
- 
+
                 layer.close(index);
 
                 layer.msg("服务器错误，请联系管理员！", { icon: 5 });
@@ -58,7 +68,7 @@ function CartDelete(cartId) {
     layer.confirm('确定要移除吗?', { icon: 3, title: '缺缺：' }, function (index) {
         //do something
         var index = layer.load();
- 
+
         $.ajax({
             url: urlBase + '/api/carts/delete/' + cartId,
             type: 'get',
@@ -95,55 +105,62 @@ function GoBuy() {
             cancel: function (index) {
                 layer.close(index);
                 location.href = "/Shop/CartList";
-            }  
+            }
         });
         layer.close(index);
     });
-    
-     
-    
 
-} 
+
+
+
+}
 
 //购买  --订单新增
 function ToBuy(productId, status, count, cartId, size) {
-    var price = parseFloat( $("#TotalPrice").text());
+    var price = parseFloat($("#TotalPrice").text());
     var token = $.cookie("token");
     var index = layer.load();
-  
+
     $.ajax({
         url: urlBase + '/api/orders',
         type: 'post',
-        data: JSON.stringify({ ProductId: productId, Count: parseInt(count), TotalPrices: price, Status: status, Size: size}),
+        data: JSON.stringify({ ProductId: productId, Count: parseInt(count), TotalPrices: price, Status: status, Size: size }),
         headers: { "Authorization": "Bearer " + token },
         contentType: 'application/json',
         success: function (res) {
-
-            $.ajax({
-                url: urlBase + '/api/carts/delete/' + cartId,
-                type: 'get',
-                headers: { "Authorization": "Bearer " + token },
-                contentType: 'application/json',
-                success: function (res) {
-                    if (status == 0) {
-                        layer.close(index);
-                        layer.msg("付款已取消！请前往订单支付", { icon: 5 }, function () { location.href = "/Shop/CartList";});
-
-                    } else {
-                        layer.close(index);
-                        layer.msg("购买成功！", { icon: 6 }, function () { location.href = "/Shop/CartList"; });
-                    }
-                   
-                }
-            }).fail(function () {
-                layer.close(index);
-                layer.msg("服务器错误，请联系管理员！", { icon: 5 });
-            });
             layer.close(index);
+            if (res.code == 1) {
+                layer.msg("商品已下架，无法支付！", { icon: 5 });
+                return;
+            } else {
+                $.ajax({
+                    url: urlBase + '/api/carts/delete/' + cartId,
+                    type: 'get',
+                    headers: { "Authorization": "Bearer " + token },
+                    contentType: 'application/json',
+                    success: function (res) {
+
+                        if (status == 0) {
+                            layer.close(index);
+                            layer.msg("付款已取消！请前往订单支付", { icon: 5 }, function () { location.href = "/Shop/CartList"; });
+
+                        } else {
+                            layer.close(index);
+                            layer.msg("购买成功！", { icon: 6 }, function () { location.href = "/Shop/CartList"; });
+                        }
+
+
+                    }
+                }).fail(function () {
+                    layer.close(index);
+                    layer.msg("服务器错误，请联系管理员！", { icon: 5 });
+                });
+            }
+         
         }
     }).fail(function () {
         layer.close(index);
         layer.msg("服务器错误，请联系管理员！", { icon: 5 });
 
-    }); 
+    });
 }

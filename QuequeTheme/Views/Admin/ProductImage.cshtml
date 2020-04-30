@@ -31,7 +31,7 @@
 
         <header class="main-header">
             <!-- 后台模板名称-->
-            <a href="index2.html" class="logo">
+            <a href="/Home/Index" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>缺</b>商</span>
                 <!-- logo for regular state and mobile devices -->
@@ -132,7 +132,27 @@
                                         <img src="@Model.UserDto.Image" class="img-circle" alt="@Model.UserDto.NickName" />
                                     }
                                     <p>
-                                        可爱的缺缺们！
+                                        <a href="#">
+                                            <i class="fa fa-circle  " style="color:lawngreen"></i>
+                                            @if (Model.UserDto.User_Role.RoleName == "帮主")
+                                            {
+                                                <strong style="color:#f56954">@Model.UserDto.User_Role.RoleName</strong>
+                                            }
+                                            else if (Model.UserDto.User_Role.RoleName == "帮主夫人")
+                                            {
+                                                <strong style="color:#D81B60">@Model.UserDto.User_Role.RoleName</strong>
+
+                                            }
+                                            else if (Model.UserDto.User_Role.RoleName == "副帮主")
+                                            {
+                                                <strong style="color:#00a65a">@Model.UserDto.User_Role.RoleName</strong>
+
+                                            }
+                                            else
+                                            {
+                                                <strong style="color:white">@Model.UserDto.User_Role.RoleName</strong>
+                                            }
+                                        </a>
                                         <small>欢迎加入炸天帮！</small>
                                     </p>
                                 </li>
@@ -188,7 +208,27 @@
                     <div class="pull-left info">
                         <p>@Model.UserDto.NickName</p>
 
-                        <a href="#"><i class="fa fa-circle text-success"></i> @Model.UserDto.User_Role.RoleName</a>
+                        <a href="#">
+                            <i class="fa fa-circle  " style="color:lawngreen"></i>
+                            @if (Model.UserDto.User_Role.RoleName == "帮主")
+                            {
+                                <strong style="color:#f56954">@Model.UserDto.User_Role.RoleName</strong>
+                            }
+                            else if (Model.UserDto.User_Role.RoleName == "帮主夫人")
+                            {
+                                <strong style="color:#D81B60">@Model.UserDto.User_Role.RoleName</strong>
+
+                            }
+                            else if (Model.UserDto.User_Role.RoleName == "副帮主")
+                            {
+                                <strong style="color:#00a65a">@Model.UserDto.User_Role.RoleName</strong>
+
+                            }
+                            else
+                            {
+                                <strong style="color:white">@Model.UserDto.User_Role.RoleName</strong>
+                            }
+                        </a>
                     </div>
                 </div>
 
@@ -214,7 +254,7 @@
                     }
 
 
-                    @if (Model.UserDto.User_Role.RoleName != "帮主")
+                    @if (Model.UserDto.User_Role.RoleName == "帮众")
                     {
                         <!--用户中心-->
                         @if (ViewBag.Active == "User")
@@ -318,7 +358,7 @@
                                     <li><a asp-action="ProductMagger"><i class="fa fa-circle-o"></i> 所有商品</a></li>
                                     <li><a asp-action="ProductCreate"><i class="fa fa-circle-o"></i> 商品上架</a></li>
                                     <li><a asp-action="ProductImage"><i class="fa fa-circle-o"></i> 商品图片</a></li>
-                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o"></i> 商品博客</a></li>
+                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品博客</a></li>
                                 </ul>
                             </li>
                         }
@@ -334,7 +374,7 @@
                                     <li><a asp-action="ProductMagger"><i class="fa fa-circle-o"></i> 所有商品</a></li>
                                     <li><a asp-action="ProductCreate"><i class="fa fa-circle-o"></i> 商品上架</a></li>
                                     <li><a asp-action="ProductImage"><i class="fa fa-circle-o"></i> 商品图片</a></li>
-                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品详情</a></li>
+                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品博客</a></li>
                                 </ul>
                             </li>
 
@@ -391,11 +431,105 @@
 
         <!-- 内容区域 -->
         <div class="content-wrapper">
+            <!-- 页面标题 -->
+            <section class="content-header">
+                <h1>
+                    添加图片 <small> @Model.UserDto.NickName</small>
+                </h1>
+            </section>
+            <p style="display:none" id="ProductId">@Model.Product.Id</p>
+            <div class="col-md-12" style="margin-top:16px;">
+                <div class="box box-default" style="height:580px">
+
+                    <div class="box-body">
+                        <div class="alert alert-link alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4>
+                                <i class="fa fa-bullhorn"></i>
+
+                                @if (Model.Product.Id == 0)
+                                {
+                                    <span style="color:#001F3F">您还没有选择一个商品！<a href="/Admin/ProductMagger" style="color:#001F3F">去选一个？</a></span>
+                                }
+                                else
+                                {
+                                    <span style="color:#001F3F">您正在为 “<a style="font-size:26px;color:#001F3F" href="javascript:ToDetail(@Model.Product.Id)">@Model.Product.Title </a>”商品添加图片！</span>
+                                }
+                            </h4>
+                        </div>
+                        @if (Model.Product.Id == 0)
+                        {
+                         }
+                        else
+                        {
+                     
+                        <div class="table-responsive  " style="margin-top:16px;height:480px">
+                            <form id="FormByProductImage" enctype="multipart/form-data">
+
+                                <table class="table table-hover " style="margin-top:10px">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <strong style="font-size:19px"> 现有图片：</strong>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="text-center ">
+                                            <td class="col-md-4">
+                                                <p><a href="javascript:ToDetail(@Model.Product.Id)"><img src="@Model.Product.Pictrue" alt="@Model.Product.Title" class="img-responsive" /></a></p>
+                                            </td>
+                                            <td class="col-md-4">
+                                                <p>
+                                                    @if (@Model.Product_Images.Count > 0)
+                                                    {
+                                                        <img id="ProductImage1" style="height:224px" src="@Model.Product_Images.ToArray()[0].Image" alt="@Model.Product.Title" class="img-responsive" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img id="ProductImage1" style="height:224px" src="@Model.Product.Pictrue" alt="@Model.Product.Title" class="img-responsive" />
+                                                    }
+                                                </p>
+                                                <p><input type="file" class="form-control" id="Image1" name="Image1" onchange="Image1Change()" value="" /></p>
+                                            </td>
+                                            <td class="col-md-4">
+                                                <p>
+                                                    @if (@Model.Product_Images.Count > 1)
+                                                    {
+                                                        <img id="ProductImage2" style="height:224px" src="@Model.Product_Images.ToArray()[1].Image" alt="@Model.Product.Title" class="img-responsive" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <img id="ProductImage2" style="height:224px" src="@Model.Product.Pictrue" alt="@Model.Product.Title" class="img-responsive" />
+                                                    }
+                                                </p>
+                                                <p><input type="file" class="form-control" id="Image2" name="Image2" onchange="Image2Change()" value="" /></p>
+
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td></td>
+                                            <td><button type="button" onclick="ImageCreate()" class="btn btn-block btn-info">提交修改</button></td>
+                                            <td></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+
+                        }
+
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+
 
         </div><!-- /.content-wrapper -->
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.0
+                <b>Version</b> 1.0
             </div>
             <strong>Copyright &copy; 2020 <a href="http://beian.miit.gov.cn">晋ICP备20002472号-1</a>.</strong> 缺缺作品
         </footer>
@@ -427,11 +561,14 @@
     <script src="~/AdminLTE-2.1.1/dist/js/app.min.js" type="text/javascript"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="~/AdminLTE-2.1.1/dist/js/demo.js" type="text/javascript"></script>
+    <script src="~/canvas-nest/canvas-nest.js" color="49,48,76" opacity='0.9' zIndex="1" count="36"></script>
+
     <script src="~/lib/jquery.cookie.js"></script>
     <script src="~/layer/layer.js"></script>
     <script src="~/js/baseurl.js"></script>
 
     <script src="~/js/admin.js"></script>
+    <script src="~/js/adminProductImages.js"></script>
 </body>
 
 </html>

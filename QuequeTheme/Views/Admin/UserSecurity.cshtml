@@ -132,22 +132,42 @@
                                         <img src="@Model.UserDto.Image" class="img-circle" alt="@Model.UserDto.NickName" />
                                     }
                                     <p>
-                                        可爱的缺缺们！
+                                        <a href="#">
+                                            <i class="fa fa-circle  " style="color:lawngreen"></i>
+                                            @if (Model.UserDto.User_Role.RoleName == "帮主")
+                                            {
+                                                <strong style="color:#f56954">@Model.UserDto.User_Role.RoleName</strong>
+                                            }
+                                            else if (Model.UserDto.User_Role.RoleName == "帮主夫人")
+                                            {
+                                                <strong style="color:#D81B60">@Model.UserDto.User_Role.RoleName</strong>
+
+                                            }
+                                            else if (Model.UserDto.User_Role.RoleName == "副帮主")
+                                            {
+                                                <strong style="color:#00a65a">@Model.UserDto.User_Role.RoleName</strong>
+
+                                            }
+                                            else
+                                            {
+                                                <strong style="color:white">@Model.UserDto.User_Role.RoleName</strong>
+                                            }
+                                        </a>
                                         <small>欢迎加入炸天帮！</small>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
                                 @*<li class="user-body">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">修改资料</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">更改密码</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">联系作者</a>
-                                        </div>
-                                    </li>*@
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">修改资料</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">更改密码</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">联系作者</a>
+                                    </div>
+                                </li>*@
                                 <!-- Menu Footer-->
                                 <!-- 按钮事件-->
                                 <li class="user-footer">
@@ -188,7 +208,27 @@
                     <div class="pull-left info">
                         <p>@Model.UserDto.NickName</p>
 
-                        <a href="#"><i class="fa fa-circle text-success"></i> @Model.UserDto.User_Role.RoleName</a>
+                        <a href="#">
+                            <i class="fa fa-circle  " style="color:lawngreen"></i>
+                            @if (Model.UserDto.User_Role.RoleName == "帮主")
+                            {
+                                <strong style="color:#f56954">@Model.UserDto.User_Role.RoleName</strong>
+                            }
+                            else if (Model.UserDto.User_Role.RoleName == "帮主夫人")
+                            {
+                                <strong style="color:#D81B60">@Model.UserDto.User_Role.RoleName</strong>
+
+                            }
+                            else if (Model.UserDto.User_Role.RoleName == "副帮主")
+                            {
+                                <strong style="color:#00a65a">@Model.UserDto.User_Role.RoleName</strong>
+
+                            }
+                            else
+                            {
+                                <strong style="color:white">@Model.UserDto.User_Role.RoleName</strong>
+                            }
+                        </a>
                     </div>
                 </div>
 
@@ -318,7 +358,7 @@
                                     <li><a asp-action="ProductMagger"><i class="fa fa-circle-o"></i> 所有商品</a></li>
                                     <li><a asp-action="ProductCreate"><i class="fa fa-circle-o"></i> 商品上架</a></li>
                                     <li><a asp-action="ProductImage"><i class="fa fa-circle-o"></i> 商品图片</a></li>
-                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品详情</a></li>
+                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品博客</a></li>
                                 </ul>
                             </li>
                         }
@@ -334,7 +374,7 @@
                                     <li><a asp-action="ProductMagger"><i class="fa fa-circle-o"></i> 所有商品</a></li>
                                     <li><a asp-action="ProductCreate"><i class="fa fa-circle-o"></i> 商品上架</a></li>
                                     <li><a asp-action="ProductImage"><i class="fa fa-circle-o"></i> 商品图片</a></li>
-                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品详情</a></li>
+                                    <li><a asp-action="ProductBlog"><i class="fa fa-circle-o "></i> 商品博客</a></li>
                                 </ul>
                             </li>
 

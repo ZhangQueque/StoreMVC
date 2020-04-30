@@ -15,6 +15,7 @@ namespace QuequeTheme.Models
         public List<CommonData> CommonDatas { get; set; } = new List<CommonData>();
 
         public List<ChartDto> ChartDtos { get; set; } = new List<ChartDto>();
+        public PageList<Product> PageListByProduct { get; set; } = new PageList<Product>();
 
         public PageList<OrderDto> PageListStatus { get; set; } = new PageList<OrderDto>();
 
@@ -26,6 +27,13 @@ namespace QuequeTheme.Models
         public PageList<OrderDto> PageListStatus4 { get; set; } = new PageList<OrderDto>();
 
         public PageList<OrderDto> PageListStatus5 { get; set; } = new PageList<OrderDto>();
+
+
+        public PageList<UserDto> PageListByUser { get; set; } = new PageList<UserDto>();
+
+        public Product Product { get; set; } = new Product();
+
+        public List<Product_Image> Product_Images { get; set; } = new List<Product_Image>();
 
     }
 }
