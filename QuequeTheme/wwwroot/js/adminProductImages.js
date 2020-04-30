@@ -48,7 +48,18 @@ function ImageCreate() {
             success: function (res) {
                 layer.close(index2);
                 layer.msg("图片添加成功！", { icon: 6 }, function () {
-                    location.href = "/Admin/ProductImage?productId=" + productId;
+                    layer.open({
+                        type: 2,
+                        title: '商品详情',
+                        shadeClose: true,
+                        shade: false,
+                        maxmin: true, //开启最大化最小化按钮
+                        area: ['693px', '600px'],
+                        content: '/Home/Detail?productId=' + productId,
+                        end: function () {
+                            location.href = "/Admin/ProductImage";
+                        }
+                    });
                 })
             }
         }).fail(function () {

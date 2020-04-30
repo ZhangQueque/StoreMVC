@@ -57,7 +57,10 @@ function GetTextarea() {
                         shade: false,
                         maxmin: true, //开启最大化最小化按钮
                         area: ['693px', '600px'],
-                        content: '/Home/Detail?productId=' + productId
+                        content: '/Home/Detail?productId=' + productId,
+                        end: function () {
+                            location.href = "/Admin/ProductBlog";
+                        }
                     });
 
                 });

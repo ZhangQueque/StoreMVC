@@ -383,21 +383,12 @@
                     </div>
                     @*商品详情*@
                 <div class="col-md-12" id="ContentDiv" style="display:flex;flex-direction:column;flex-wrap:wrap">
-                    @if (Model.Product.Product_Describes.Count != 0)
-                    {
+                   
                         @foreach (var item in Model.Product.Product_Describes)
                         {
                             <p id="Content" style="display:none"> @item.Content</p>
                         }
-                    }
-                    else
-                    {
-                        <img src="http://img12.360buyimg.com/imgzone/jfs/t1/108090/27/7135/80652/5e57276fE866a1a62/7064cbff8f82d24b.jpg" class="img-responsive" />
-                        <img src="http://img10.360buyimg.com/imgzone/jfs/t1/107757/34/6972/172351/5e572770Ef27e41de/7d228a84f4155f59.jpg" />
-                        <img src="http://img14.360buyimg.com/imgzone/jfs/t1/92849/9/13230/174060/5e572770E06e231ed/fbebfd7007630f65.jpg" />
-                        <img src="http://img14.360buyimg.com/imgzone/jfs/t1/85085/16/13267/139884/5e572771E0a581bb0/f59970be3bbff9a6.jpg" />
-                    }
-
+                  
                 </div>
 
                 </div> @*商品信息*@
