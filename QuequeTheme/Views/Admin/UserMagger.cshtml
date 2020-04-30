@@ -438,21 +438,23 @@
                 </h1>
             </section>
             <div class="col-md-12" style="margin-top:16px">
-                <div class="box box-default">
+                <div class="box box-default" style="height:590px">
 
-                    <div class="box-body">
+                    <div class="box-body"   >
                         <div class="alert alert-danger alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h4>
                                 <i class="icon fa fa-warning"></i> 警告!  <span style="font-size:13px">  请谨慎操作！</span>
                             </h4>
-                            <form class="form-inline  ">
-                                <input class="form-control  " type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-success  " type="button" onclick="Search()">搜索</button>
+                            <form class="form-inline" method="get">
+                                <input class="form-control" name="name" type="search" placeholder="用户昵称" aria-label="Search">
+                                <button class="btn btn-success  " type="submit">搜索</button>
+                                <button class="btn btn-primary  " type="button" style="float:right;margin-right:50px" onclick="RoleMagger()">角色管理</button>
+
                             </form>
 
                         </div>
-                        <div class="table-responsive">
+                        <div class="table-responsive" >
                             <table class="table table-hover text-center">
                                 <thead>
                                     <tr>
@@ -599,17 +601,17 @@
                                 else
                                 {
                                     <li class="page-item  ">
-                                        <a class="page-link" asp-action="UserMagger" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                        <a class="page-link" asp-action="UserMagger" asp-route-name="@ViewBag.Name" asp-route-index="@(ViewBag.Index-1)">上一页</a>
                                     </li>
                                 }
                                 @for (int i = 1; i <= Model.PageListByUser.TotalPages; i++)
                                 {
                                     if (i == ViewBag.Index)
                                     {
-                                        <li class="page-item active"><a class="page-link" asp-action="UserMagger" asp-route-index="@i">@i</a></li>
+                                        <li class="page-item active"><a class="page-link" asp-route-name="@ViewBag.Name" asp-action="UserMagger" asp-route-index="@i">@i</a></li>
                                         continue;
                                     }
-                                    <li class="page-item"><a class="page-link" asp-action="UserMagger" asp-route-index="@i">@i</a></li>
+                                    <li class="page-item"><a class="page-link" asp-route-name="@ViewBag.Name" asp-action="UserMagger" asp-route-index="@i">@i</a></li>
 
                                 }
                                 @if (ViewBag.Index == Model.PageListByUser.TotalPages)
@@ -621,7 +623,7 @@
                                 else
                                 {
                                     <li class="page-item  ">
-                                        <a class="page-link" asp-action="UserMagger" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                        <a class="page-link" asp-action="UserMagger" asp-route-name="@ViewBag.Name" asp-route-index="@(ViewBag.Index+1)">下一页</a>
                                     </li>
                                 }
 

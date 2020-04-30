@@ -435,13 +435,20 @@
                 <h1>
                     我的订单
                     <small> @Model.UserDto.NickName</small>
+
                 </h1>
+                <form class="form-inline" action="/Admin/UserOrders" method="get" style="margin-top:9px">
+                    <input type="text" name="cardId" value="1" style="display:none" />
+                    <input class="form-control  " name="name" type="search" placeholder="搜索我的订单" aria-label="Search">
+                    <button class="btn btn-danger  " type="submit">搜索</button>
+                </form>
             </section>
 
-            <div class="row" style="margin-top:16px">
+            <div class="row" >
                 <div class="col-md-12">
+                   
                     <!-- Custom Tabs -->
-                    <div class="nav-tabs-custom">
+                    <div class="nav-tabs-custom" style="margin-top:15px">
                         <ul class="nav nav-tabs">
                             <li class="@(ViewBag.CardId==1?"active":"")"><a href="#tab_1" data-toggle="tab" aria-expanded="true">全部</a></li>
                             <li class="@(ViewBag.CardId==2?"active":"")"><a href="#tab_2" data-toggle="tab" aria-expanded="true">待付款订单</a></li>
@@ -471,11 +478,11 @@
                                                     <td class="col-md-6">
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
-                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+                                                                <a href="javascript:ToDetail(@item.ProductId)">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
 
                                                             </div>
                                                             <div class="col-md-9 text-left">
-                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p><a href="javascript:ToDetail(@item.ProductId)"><strong style="font-size:15px"> @item.Title</strong></a></p>
                                                                 <p>
                                                                     <strong style="color:#808080;font-size:14px">
                                                                         @if (!string.IsNullOrEmpty(item.ShortDescribe))
@@ -604,17 +611,17 @@
                                         else
                                         {
                                             <li class="page-item  ">
-                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                                <a class="page-link" asp-action="UserOrders" asp-route-name="@ViewBag.Name" asp-route-cardId="1" asp-route-index="@(ViewBag.Index-1)">上一页</a>
                                             </li>
                                         }
                                         @for (int i = 1; i <= Model.PageListStatus.TotalPages; i++)
                                         {
                                             if (i == ViewBag.Index)
                                             {
-                                                <li class="page-item active"><a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-index="@i">@i</a></li>
+                                                <li class="page-item active"><a class="page-link"  asp-action="UserOrders" asp-route-name="@ViewBag.Name" asp-route-cardId="1" asp-route-index="@i">@i</a></li>
                                                 continue;
                                             }
-                                            <li class="page-item"><a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-index="@i">@i</a></li>
+                                            <li class="page-item"><a class="page-link" asp-action="UserOrders" asp-route-name="@ViewBag.Name" asp-route-cardId="1" asp-route-index="@i">@i</a></li>
 
                                         }
                                         @if (ViewBag.Index == Model.PageListStatus.TotalPages)
@@ -626,7 +633,7 @@
                                         else
                                         {
                                             <li class="page-item  ">
-                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                                <a class="page-link" asp-action="UserOrders" asp-route-cardId="1" asp-route-name="@ViewBag.Name" asp-route-index="@(ViewBag.Index+1)">下一页</a>
                                             </li>
                                         }
 
@@ -652,11 +659,11 @@
                                                     <td class="col-md-6">
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
-                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+                                                                <a href="javascript:ToDetail(@item.ProductId)">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
 
                                                             </div>
                                                             <div class="col-md-9 text-left">
-                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p><a href="javascript:ToDetail(@item.ProductId)"><strong style="font-size:15px"> @item.Title</strong></a></p>
                                                                 <p>
                                                                     <strong style="color:#808080;font-size:14px">
                                                                         @if (!string.IsNullOrEmpty(item.ShortDescribe))
@@ -770,11 +777,11 @@
                                                     <td class="col-md-6">
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
-                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+                                                                <a href="javascript:ToDetail(@item.ProductId)">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
 
                                                             </div>
                                                             <div class="col-md-9 text-left">
-                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p><a href="javascript:ToDetail(@item.ProductId)"><strong style="font-size:15px"> @item.Title</strong></a></p>
                                                                 <p>
                                                                     <strong style="color:#808080;font-size:14px">
                                                                         @if (!string.IsNullOrEmpty(item.ShortDescribe))
@@ -881,11 +888,11 @@
                                                     <td class="col-md-6">
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
-                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+                                                                <a href="javascript:ToDetail(@item.ProductId)">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
 
                                                             </div>
                                                             <div class="col-md-9 text-left">
-                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p><a href="javascript:ToDetail(@item.ProductId)"><strong style="font-size:15px"> @item.Title</strong></a></p>
                                                                 <p>
                                                                     <strong style="color:#808080;font-size:14px">
                                                                         @if (!string.IsNullOrEmpty(item.ShortDescribe))
@@ -993,11 +1000,11 @@
                                                     <td class="col-md-6">
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
-                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+                                                                <a href="javascript:ToDetail(@item.ProductId)">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
 
                                                             </div>
                                                             <div class="col-md-9 text-left">
-                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p><a href="javascript:ToDetail(@item.ProductId)"><strong style="font-size:15px"> @item.Title</strong></a></p>
                                                                 <p>
                                                                     <strong style="color:#808080;font-size:14px">
                                                                         @if (!string.IsNullOrEmpty(item.ShortDescribe))
@@ -1106,11 +1113,11 @@
                                                     <td class="col-md-6">
                                                         <div class="col-md-12">
                                                             <div class="col-md-3">
-                                                                <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+                                                                <a href="javascript:ToDetail(@item.ProductId)">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
 
                                                             </div>
                                                             <div class="col-md-9 text-left">
-                                                                <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                                <p><a href="javascript:ToDetail(@item.ProductId)"><strong style="font-size:15px"> @item.Title</strong></a></p>
                                                                 <p>
                                                                     <strong style="color:#808080;font-size:14px">
                                                                         @if (!string.IsNullOrEmpty(item.ShortDescribe))

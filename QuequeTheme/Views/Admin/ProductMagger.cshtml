@@ -438,14 +438,14 @@
                 </h1>
             </section>
             <div class="col-md-12" style="margin-top:16px">
-                <div class="box box-default">
+                <div class="box box-default" style="height:590px">
 
                     <div class="box-body">
                         <div class="alert alert-info alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h4><i class="fa fa-bullhorn"></i> 通知!<span style="font-size:13px"> 以下是全部商品！</span></h4>
                             <form class="form-inline  " method="get">
-                                <input class="form-control  " name="name" type="search" placeholder="Search" aria-label="Search">
+                                <input class="form-control  " name="name" type="search" placeholder="商品名称" aria-label="Search">
                                 <button class="btn btn-danger  " type="submit">搜索</button>
                             </form>
                         </div>
@@ -499,7 +499,7 @@
                                                                 }
                                                                 else
                                                                 {
-                                                                    <strong style="font-size:20px" class="text-warning"> 已下架</strong>
+                                                                    <strong style="font-size:20px" class="text-danger"> 已下架</strong>
 
                                                                 }
                                                             </div>
@@ -515,16 +515,18 @@
 
                                             <td>
                                                 <button class="btn btn-block btn-warning" onclick="EditContnt(@item.Id)">编辑内容</button>
-                                                <a class="btn btn-block btn-success" asp-action="ProductImage" asp-route-productId="@item.Id">添加图片</a>
-                                                <a class="btn btn-block btn-primary" asp-action="ProductBlog" asp-route-productId="@item.Id">书写博客</a>
+
 
                                                 @if (item.Status == 0)
                                                 {
+                                                    <a class="btn btn-block btn-success" asp-action="ProductImage" asp-route-productId="@item.Id">添加图片</a>
+                                                    <a class="btn btn-block btn-primary" asp-action="ProductBlog" asp-route-productId="@item.Id">书写博客</a>
                                                     <button class="btn btn-block btn-danger" onclick="ToProductStatus(@item.Id)">下架</button>
 
                                                 }
                                                 else
-                                                {
+                                                { <a class="btn btn-block btn-default">添加图片</a>
+                                                    <a class="btn btn-block btn-default">书写博客</a>
                                                     <button class="btn btn-block btn-info" onclick="ToProductStatus(@item.Id)">上架</button>
 
                                                 }

@@ -438,16 +438,16 @@
                 </h1>
             </section>
             <div class="col-md-12" style="margin-top:16px">
-                <div class="box box-default">
+                <div class="box box-default" style="height:590px">
 
                     <div class="box-body">
                         <div class="alert alert-danger alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h4><i class="icon fa fa-warning"></i> 警告! <span style="font-size:13px"> 请仔细核对信息在退款！</span></h4>
 
-                            <form class="form-inline  ">
-                                <input class="form-control  " type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-success  " type="button" onclick="Search()">搜索</button>
+                            <form class="form-inline  " method="get">
+                                <input class="form-control  " name="name" type="search" placeholder="订单名称" aria-label="Search">
+                                <button class="btn btn-success  " type="submit" >搜索</button>
                             </form>
                         </div>
                         <div class="table-responsive ">
@@ -468,11 +468,11 @@
                                             <td class="col-md-6">
                                                 <div class="col-md-12">
                                                     <div class="col-md-3">
-                                                        <a href="/Home/Detail?productId=@item.ProductId">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
+                                                        <a href="javascript:ToDetail(@item.ProductId)">   <img src="@item.Pictrue" alt="@item.Title" class="img-responsive " /></a>
 
                                                     </div>
                                                     <div class="col-md-9 text-left">
-                                                        <p><a href="/Home/Detail?productId=@item.ProductId"><strong style="font-size:15px"> @item.Title</strong></a></p>
+                                                        <p><a href="javascript:ToDetail(@item.ProductId)"><strong style="font-size:15px"> @item.Title</strong></a></p>
                                                         <p>
                                                             <strong style="color:#808080;font-size:14px">
                                                                 @if (!string.IsNullOrEmpty(item.ShortDescribe))
@@ -530,17 +530,17 @@
                                 else
                                 {
                                     <li class="page-item  ">
-                                        <a class="page-link" asp-action="OrderRefund" asp-route-index="@(ViewBag.Index-1)">上一页</a>
+                                        <a class="page-link" asp-action="OrderRefund" asp-route-name="@ViewBag.Name" asp-route-index="@(ViewBag.Index-1)">上一页</a>
                                     </li>
                                 }
                                 @for (int i = 1; i <= Model.PageListStatus5.TotalPages; i++)
                                 {
                                     if (i == ViewBag.Index)
                                     {
-                                        <li class="page-item active"><a class="page-link" asp-action="OrderRefund" asp-route-index="@i">@i</a></li>
+                                        <li class="page-item active"><a class="page-link"  asp-action="OrderRefund" asp-route-name="@ViewBag.Name" asp-route-index="@i">@i</a></li>
                                         continue;
                                     }
-                                    <li class="page-item"><a class="page-link" asp-action="OrderRefund" asp-route-index="@i">@i</a></li>
+                                    <li class="page-item"><a class="page-link" asp-action="OrderRefund" asp-route-name="@ViewBag.Name" asp-route-index="@i">@i</a></li>
 
                                 }
                                 @if (ViewBag.Index == Model.PageListStatus5.TotalPages)
@@ -552,7 +552,7 @@
                                 else
                                 {
                                     <li class="page-item  ">
-                                        <a class="page-link" asp-action="OrderRefund" asp-route-index="@(ViewBag.Index+1)">下一页</a>
+                                        <a class="page-link" asp-action="OrderRefund" asp-route-name="@ViewBag.Name" asp-route-index="@(ViewBag.Index+1)">下一页</a>
                                     </li>
                                 }
 
