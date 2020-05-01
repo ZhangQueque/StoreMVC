@@ -18,7 +18,8 @@ function EditContnt(productId) {
 
 //更改商品状态
 function ToProductStatus(  productId) {
-
+    var pageindex = $("#PageIndex").text();
+    var pagename = $("#PageName").text();
     layer.prompt({ title: '输入密钥，并确认', formType: 1 }, function (pass, index) {
 
         layer.confirm('确定要执行操作吗?', { icon: 3 }, function (index) {
@@ -32,7 +33,7 @@ function ToProductStatus(  productId) {
                 contentType: 'application/json',
                 success: function (res) {
                     layer.close(index2);
-                    layer.msg("修改成功！", { icon: 6 });
+                    layer.msg("修改成功！", { icon: 6 }, function () { location.href = "/Admin/ProductMagger?index=" + pageindex + "&name=" + pagename });
                 }
             }).fail(function () {
                 layer.close(index2);

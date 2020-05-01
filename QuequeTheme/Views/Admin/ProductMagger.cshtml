@@ -537,7 +537,11 @@
                             </table>
                         </div>
                         <nav aria-label="Page navigation example" style="float:right">
+                            <p id="PageIndex" style="display:none">@ViewBag.Index</p>
+                            <p id="PageName" style="display:none">@ViewBag.Name</p>
                             <ul class="pagination justify-content-end">
+
+
                                 @if (ViewBag.Index == 1)
                                 {
                                     <li class="page-item disabled">
